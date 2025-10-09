@@ -1,0 +1,147 @@
+/* --- ここからスライダー用のCSSを追加 --- */
+/* メインコンテンツ全体 */
+.main {
+  padding-top: 61px; /* ヘッダーの高さ分だけ余白を設ける (padding 10px*2 + border 1px + ロゴの高さ約40px) */
+}
+
+
+@keyframes scroll {
+  /* 1枚あたりの表示幅は 100vw / 3 */
+  /* 1枚あたりのアニメーション時間 (5秒静止 + 1秒スライド) = 6秒 */
+  /* 全体のアニメーション時間 = 6秒 * 6枚 = 36秒 */
+  /* 各ステップのパーセンテージは 100% / 6 = 16.66% */
+  /* 静止時間割合 = 5/6 = 83.33% */
+  /* スライド時間割合 = 1/6 = 16.67% */
+
+  /* 1枚目 (表示位置: 0vw) */
+  0%      { transform: translateX(0); }
+  13.88%  { transform: translateX(0); } /* 5秒静止 */
+  16.66%  { transform: translateX(calc(-100vw / 3)); } /* 1秒で次の画像へスライド */
+
+  /* 2枚目 (表示位置: -100vw/3) */
+  16.67%  { transform: translateX(calc(-100vw / 3)); }
+  30.55%  { transform: translateX(calc(-100vw / 3)); } /* 5秒静止 */
+  33.33%  { transform: translateX(calc(-200vw / 3)); } /* 1秒で次の画像へスライド */
+
+  /* 3枚目 (表示位置: -200vw/3) */
+  33.34%  { transform: translateX(calc(-200vw / 3)); }
+  47.21%  { transform: translateX(calc(-200vw / 3)); } /* 5秒静止 */
+  50.00%  { transform: translateX(calc(-300vw / 3)); } /* 1秒で次の画像へスライド (つまり -100vw) */
+
+  /* 4枚目 (表示位置: -300vw/3) */
+  50.01%  { transform: translateX(calc(-300vw / 3)); }
+  63.88%  { transform: translateX(calc(-300vw / 3)); } /* 5秒静止 */
+  66.66%  { transform: translateX(calc(-400vw / 3)); } /* 1秒で次の画像へスライド */
+
+  /* 5枚目 (表示位置: -400vw/3) */
+  66.67%  { transform: translateX(calc(-400vw / 3)); }
+  80.55%  { transform: translateX(calc(-400vw / 3)); } /* 5秒静止 */
+  83.33%  { transform: translateX(calc(-500vw / 3)); } /* 1秒で次の画像へスライド */
+
+  /* 6枚目 (表示位置: -500vw/3) */
+  83.34%  { transform: translateX(calc(-500vw / 3)); }
+  97.21%  { transform: translateX(calc(-500vw / 3)); } /* 5秒静止 */
+  100%    { transform: translateX(calc(-600vw / 3)); } /* 1秒で次の画像へスライド (つまり -200vw) */
+}
+
+.main-visual-slider {
+  width: 100%;
+  height: calc(100vh - 81px); /* ヘッダーの高さを引いた画面いっぱいの高さ */
+  background-color: #f0f0f0;
+  position: relative;
+  overflow: hidden; /* はみ出した画像を隠す */
+  display: flex; /* スライドを横並びにするために追加 */
+  justify-content: center; /* 中央揃えにするために追加 */
+  align-items: center; /* 垂直方向中央揃え */
+}
+
+.slider-track {
+  display: flex;
+  /* 画像12枚分の幅 (6枚 x 2セット) */
+  width: calc(100vw / 3 * 12); /* 1枚の幅が100vw/3なので、12枚分 */
+  /* (5秒静止 + 1秒スライド) x 6枚 = 36秒 */
+  animation: scroll 36s linear infinite;
+}
+
+.slide {
+  width: calc(100vw / 3); /* 画面幅の1/3に設定 */
+  height: calc(100vh - 81px);
+  display: flex; /* 画像を中央に配置するために追加 */
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px; /* スライド間の余白を追加 */
+  box-sizing: border-box; /* paddingを含めて幅を計算 */
+}
+/* --- ここまでスライダー用のCSS --- */
+
+/* メインビジュアル */
+
+.main-visual-img {
+  max-width: 100%; /* コンテナの幅を超えないようにする */
+  max-height: 100%; /* コンテナの高さを超えないようにする */
+  object-fit: contain; /* アスペクト比を維持したままエリア内に収める */
+}
+
+/* JavaScriptでこのクラスを中央の画像に付与することでぼかしを解除 */
+.slide.is-active .main-visual-img {
+  filter: none;
+}
+
+/* 商品一覧 */
+.item-contents {
+  padding: 5vh 10vw;
+  background-color: #fff;
+}
+
+.item-contents-title {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin-bottom: 5vh;
+}
+
+.item-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 画面幅に応じて列数を自動調整 */
+  gap: 30px;
+  list-style: none;
+  padding: 0;
+}
+
+.list > a {
+  text-decoration: none;
+  color: #333;
+}
+
+.item-img-content {
+  width: 100%;
+  padding-top: 100%; /* 正方形を維持 */
+  position: relative;
+  background-color: #f0f0f0;
+}
+
+.item-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-info {
+  padding: 10px;
+}
+
+.item-name {
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0 0 5px 0;
+}
+
+.item-price {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+}

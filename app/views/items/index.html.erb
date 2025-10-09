@@ -1,1 +1,43 @@
 <%= render "shared/header"%>
+
+<div class='main'>
+  <%# メインビジュアル %>
+  <div class="main-visual-slider">
+    <div class="slider-track">
+      <%# --- スライドさせたい画像6枚を2セット並べます --- %>
+      <% 2.times do %>
+        <div class="slide"><%= image_tag 'S__70008841.jpg', class: 'main-visual-img' %></div>
+        <div class="slide"><%= image_tag 'S__70008843.jpg', class: 'main-visual-img' %></div>
+        <div class="slide"><%= image_tag 'S__70008844_0.jpg', class: 'main-visual-img' %></div>
+        <div class="slide"><%= image_tag 'S__70008845_0.jpg', class: 'main-visual-img' %></div>
+        <div class="slide"><%= image_tag 'S__70008846_0.jpg', class: 'main-visual-img' %></div>
+        <div class="slide"><%= image_tag 'S__70008847_0.jpg', class: 'main-visual-img' %></div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# 商品一覧 %>
+  <div class='item-contents'>
+    <h2 class='item-contents-title'>
+      NEW ARRIVALS
+    </h2>
+    <ul class='item-lists'>
+      <%# 商品の情報を表示する %>
+      <%# @items.each do |item| %> <%# ← 表示確認用のダミーです %>
+        <li class='list'>
+          <%#= link_to "#" do %>
+            <div class='item-img-content'> 
+              <%#= image_tag url_for(item.images.first), class: "item-img" if item.images.attached? %>
+            </div> 
+            <div class='item-info'> 
+              <h3 class='item-name'><%#= item.name %></h3> 
+              <p class='item-price'>￥<%#= item.price %>円</p> 
+            </div> 
+          <%# end %>
+        </li> 
+      <%# end %>
+    </ul>
+  </div>
+</div>
+
+<%= render "shared/footer" %>
