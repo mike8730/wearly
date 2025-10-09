@@ -1,0 +1,25 @@
+<header class='top-page-header'>
+  <div class="header-left">
+    <button type="button" class="hamburger-menu" id="hamburger-menu">
+      <span class="hamburger-menu-bar"></span>
+      <span class="hamburger-menu-bar"></span>
+      <span class="hamburger-menu-bar"></span>
+    </button>
+  </div>
+
+  <div class="header-logo">
+    <%= link_to image_tag("s__70008848_0.png", class: "header-logo-img"), "/" %>
+  </div>
+
+  <div class="header-right">
+    <div class="user-nav">
+       <%# if user_signed_in? %>
+        <%#= link_to "#{current_user.nickname}　さん", "#", class: "user-nav-item" %>
+        <%#= link_to "ログアウト", destroy_user_session_path, data: {turbo_method: :delete}, class: "user-nav-item" %>
+      <%# else %>
+        <%#= link_to '新規登録', new_user_registration_path, class: "user-nav-item" %>
+        <%#= link_to 'ログイン', new_user_session_path, class: "user-nav-item" %>
+      <%# end %>
+    </div>
+  </div>
+</header>
