@@ -17,8 +17,8 @@
         <%#= link_to "#{current_user.nickname}　さん", "#", class: "user-nav-item" %>
         <%#= link_to "ログアウト", destroy_user_session_path, data: {turbo_method: :delete}, class: "user-nav-item" %>
       <%# else %>
-        <%#= link_to '新規登録', new_user_registration_path, class: "user-nav-item" %>
-        <%#= link_to 'ログイン', new_user_session_path, class: "user-nav-item" %>
+        <%= link_to '新規登録', new_user_registration_path, class: "user-nav-item" %>
+        <%= link_to 'ログイン', new_user_session_path, class: "user-nav-item" %>
       <%# end %>
     </div>
   </div>
