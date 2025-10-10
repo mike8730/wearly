@@ -1,0 +1,151 @@
+/* フォーム全体 */
+.form-wrap {
+  background-color: #f5f5f5;
+  padding: 50px 0;
+}
+
+.registration-main {
+  background-color: #fff;
+  width: 700px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* ヘッダー */
+.form-header {
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.form-header-text {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+/* エラーメッセージ */
+.error-alert {
+  width: 100%;
+  background-color: #ffe5e5;
+  border: 1px solid #ea352d;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  text-align: center; /* 中央配置 */
+}
+
+.error-alert ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.error-alert li {
+  color: #ea352d;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* 各フォームグループ */
+.form-group {
+  margin-top: 30px;
+}
+
+.form-text-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-text {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.indispensable {
+  background: #ea352d;
+  margin-left: 8px;
+  padding: 3px 5px;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* 入力欄 */
+.input-default {
+  width: 100%;
+  height: 48px;
+  padding: 10px 16px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* 名前・フリガナ欄 */
+.input-name-wrap {
+  display: flex;
+  gap: 10px; /* flexの隙間を明示的に指定 */
+}
+
+.input-name {
+  flex: 1; /* 両方均等に広がる */
+  height: 48px;
+  padding: 10px 16px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* 生年月日 */
+.input-birth-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.input-birth-wrap select {
+  height: 48px;
+  padding: 0 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 16px;
+}
+
+.input-birth-wrap p {
+  margin: 0;
+}
+
+/* 注意書き */
+.info-text {
+  color: #888;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.form-info-header {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* 登録ボタン */
+.register-btn {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.register-red-btn {
+  width: 100%;
+  background: #ea352d;
+  border: 1px solid #ea352d;
+  color: #fff;
+  line-height: 48px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}

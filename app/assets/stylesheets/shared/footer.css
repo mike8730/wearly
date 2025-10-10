@@ -1,0 +1,52 @@
+.footer {
+  background-color: #000;
+  color: #fff;
+  padding: 60px 40px;
+  font-size: 14px;
+}
+
+.footer-contents {
+  display: flex;
+  justify-content: flex-start; /* 左寄せで配置 */
+  gap: 80px; /* 各セクション間の余白 */
+  margin-bottom: 60px;
+}
+
+.clothes-ec-details,
+.nav {
+  /* 特に指定は不要 */
+}
+
+.footer-content-head {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  margin: 0 0 20px 0;
+}
+
+.footer-contents ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-contents li {
+  margin-bottom: 15px;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: #a0a0a0; /* 少し明るいグレー */
+  transition: color 0.3s;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.footer > p {
+  text-align: center;
+  color: #a0a0a0;
+  font-size: 12px;
+  margin: 0;
+}
