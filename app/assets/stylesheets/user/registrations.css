@@ -23,6 +23,29 @@
   font-weight: 500;
 }
 
+/* エラーメッセージ */
+.error-alert {
+  width: 100%;
+  background-color: #ffe5e5;
+  border: 1px solid #ea352d;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  text-align: center; /* 中央配置 */
+}
+
+.error-alert ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.error-alert li {
+  color: #ea352d;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
 /* 各フォームグループ */
 .form-group {
   margin-top: 30px;
@@ -61,13 +84,14 @@
   box-sizing: border-box;
 }
 
+/* 名前・フリガナ欄 */
 .input-name-wrap {
   display: flex;
-  justify-content: space-between;
+  gap: 10px; /* flexの隙間を明示的に指定 */
 }
 
 .input-name {
-  width: calc(50% - 5px);
+  flex: 1; /* 両方均等に広がる */
   height: 48px;
   padding: 10px 16px 8px;
   border-radius: 4px;
@@ -81,6 +105,7 @@
 .input-birth-wrap {
   display: flex;
   align-items: center;
+  gap: 5px;
 }
 
 .input-birth-wrap select {
@@ -93,7 +118,7 @@
 }
 
 .input-birth-wrap p {
-  margin: 0 5px;
+  margin: 0;
 }
 
 /* 注意書き */
