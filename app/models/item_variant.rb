@@ -1,0 +1,2 @@
+class ItemVariant < ApplicationRecord
+end

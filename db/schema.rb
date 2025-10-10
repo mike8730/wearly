@@ -10,12 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_10_122348) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_10_122713) do
   create_table "colors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
     t.string "code"
+  end
+
+  create_table "item_variants", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "item_id", null: false
+    t.bigint "size_id", null: false
+    t.bigint "color_id", null: false
+    t.integer "stock_quantity", null: false
+    t.integer "price", null: false
+    t.index ["color_id"], name: "index_item_variants_on_color_id"
+    t.index ["item_id"], name: "index_item_variants_on_item_id"
+    t.index ["size_id"], name: "index_item_variants_on_size_id"
   end
 
   create_table "items", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -53,4 +66,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_10_122348) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "item_variants", "colors"
+  add_foreign_key "item_variants", "items"
+  add_foreign_key "item_variants", "sizes"
 end
