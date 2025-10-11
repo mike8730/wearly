@@ -23,19 +23,19 @@
     </h2>
     <ul class='item-lists'>
       <%# 商品の情報を表示する %>
-      <%# @items.each do |item| %> <%# ← 表示確認用のダミーです %>
+      <% @items.each do |item| %> <%# ← 表示確認用のダミーです %>
         <li class='list'>
-          <%#= link_to "#" do %>
+          <%= link_to "#" do %>
             <div class='item-img-content'> 
-              <%#= image_tag url_for(item.images.first), class: "item-img" if item.images.attached? %>
+              <%= image_tag url_for(item.images.first), class: "item-img" if item.images.attached? %>
             </div> 
             <div class='item-info'> 
-              <h3 class='item-name'><%#= item.name %></h3> 
-              <p class='item-price'>￥<%#= item.price %>円</p> 
+              <h3 class='item-name'><%= item.name %></h3> 
+              <p class='item-price'>￥<%= item.price %>円</p> 
             </div> 
-          <%# end %>
+          <% end %>
         </li> 
-      <%# end %>
+      <% end %>
     </ul>
   </div>
 </div>

@@ -1,6 +1,8 @@
 class ItemsController < ApplicationController
   def index
+    @items = Item.order(created_at: :desc)
   end
+
     def new
      @item_form = ItemForm.new
      @item_form.item_variants_attributes = { "0" => { size_id: "", color_id: "", stock_quantity: "", price: "" } }
