@@ -25,7 +25,7 @@
       <%# 商品の情報を表示する %>
       <% @items.each do |item| %> <%# ← 表示確認用のダミーです %>
         <li class='list'>
-          <%= link_to "#" do %>
+          <%= link_to item_path(item) do %>
             <div class='item-img-content'> 
               <%= image_tag url_for(item.images.first), class: "item-img" if item.images.attached? %>
             </div> 

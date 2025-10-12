@@ -1,0 +1,192 @@
+/* 商品詳細ページ 全体 */
+.item-show {
+  background-color: #f5f5f5;
+  padding: 40px 0;
+  font-family: "Source Sans Pro", Helvetica, Arial, "æ¸¸ã‚´ã‚·ãƒƒã‚¯ä½“", "YuGothic", "ãƒ¡ã‚¤ãƒªã‚ª", "Meiryo", sans-serif;
+}
+
+.item-box-container {
+  background-color: #fff;
+  width: 70%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px;
+  display: flex;
+  gap: 40px;
+}
+
+/* 左側: 画像パネル */
+.item-image-panel {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-image-container {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.main-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 1 / 1; /* 画像を正方形に保つ */
+}
+
+.thumbnail-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.thumbnail-image {
+  width: 22%; /* 4枚並びでgapを考慮 */
+  height: auto;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  aspect-ratio: 1 / 1;
+}
+
+.thumbnail-image:hover,
+.thumbnail-image.active {
+  opacity: 1;
+  border: 2px solid #3ccace;
+}
+
+/* 右側: 詳細パネル */
+.item-details-panel {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.item-price {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.tax-included {
+  font-size: 14px;
+  font-weight: normal;
+  margin-left: 10px;
+}
+
+/* バリエーション選択 */
+.item-variants-section {
+  margin-bottom: 20px;
+}
+
+.variant-group {
+  margin-bottom: 15px;
+}
+
+.variant-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.variant-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.variant-btn {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.variant-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.variant-btn.selected {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.variant-btn.disabled {
+  background-color: #f5f5f5;
+  color: #ccc;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* 説明 */
+.item-explain-box {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.explain-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.item-explain-box p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* 購入ボタン */
+.item-red-btn {
+  display: block;
+  width: 100%;
+  background: #ea352d;
+  border: 1px solid #ea352d;
+  color: #fff;
+  line-height: 48px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  margin-bottom: 30px;
+}
+
+.item-red-btn:hover {
+  opacity: 0.8;
+}
+
+.item-red-btn.disabled {
+  background: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+/* 戻るボタン */
+.back-btn {
+  margin-top: auto; /* パネル下部に配置 */
+  padding-top: 20px;
+  text-decoration: none;
+  color: #3ccace;
+  transition: opacity 0.2s;
+}
+
+.back-btn:hover {
+  opacity: 0.7;
+}
