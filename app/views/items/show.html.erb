@@ -1,0 +1,96 @@
+<%= render "shared/header" %>
+
+<div class="item-show">
+  <div class="item-box-container">
+
+    <%# 左側: 画像エリア %>
+    <div class="item-image-panel">
+      <div class="main-image-container">
+        <% first_variant = @item.item_variants.find { |v| v.images.attached? } %>
+        <% if first_variant %>
+          <%= image_tag url_for(first_variant.images.first), class: "main-image", id: "main-image" %>
+        <% else %>
+          <%= image_tag 'item-sample.png', class: "main-image", id: "main-image" %>
+        <% end %>
+      </div>
+      
+      <div class="thumbnail-container">
+        <% @item.item_variants.group_by(&:color_id).each do |color_id, variants| %>
+          <div class="thumbnail-group">
+            <h4><%= Color.find(color_id).name %></h4>
+            <div class="thumbnail-row">
+              <% variants.each do |variant| %>
+                <% if variant.images.attached? %>
+                  <% variant.images.each do |image| %>
+                    <%= image_tag url_for(image), class: "thumbnail-image" %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%# 右側: 詳細・購入エリア %>
+    <div class="item-details-panel">
+      <h1 class="item-name"><%= @item.name %></h1>
+      <p class="item-price" id="item-price">
+        <%= number_to_currency(@item.price, unit: "¥", precision: 0, format: "%u%n") %>
+        <span class="tax-included">(税込)</span>
+      </p>
+
+      <%# カラー・サイズ選択 %>
+      <div class="item-variants-section">
+        <div class="variant-group">
+          <h3 class="variant-title">カラー</h3>
+          <div class="variant-options color-options">
+            <% @item.colors.uniq.each do |color| %>
+              <button type="button" class="variant-btn color-btn" data-color-id="<%= color.id %>">
+                <%= color.name %>
+              </button>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="variant-group">
+          <h3 class="variant-title">サイズ</h3>
+          <div class="variant-options size-options">
+            <% @item.sizes.uniq.each do |size| %>
+              <button type="button" class="variant-btn size-btn" data-size-id="<%= size.id %>">
+                <%= size.name %>
+              </button>
+              <span class="sold-out-label" data-size-id="<%= size.id %>" style="display: none;">売り切れ</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <%# 購入ボタン %>
+      <%= link_to "購入画面に進む", "#", class: "item-red-btn disabled", id: "purchase-btn" %>
+
+      <div class="item-explain-box">
+        <h3 class="explain-title">商品説明</h3>
+        <p><%= simple_format(@item.description) %></p>
+      </div>
+
+      <%# 商品一覧へ戻るリンク %>
+      <%= link_to '＜ 商品一覧へもどる', items_path, class:"back-btn" %>
+    </div>
+  </div>
+
+  <%# 在庫データをJSで使うためのJSON（画像URL・価格も含む） %>
+  <script id="item-variants-data" type="application/json">
+    <%= raw @item.item_variants.map { |v| {
+      id: v.id,
+      item_id: v.item_id,
+      color_id: v.color_id,
+      size_id: v.size_id,
+      stock: v.stock_quantity,
+      price: v.price,
+      image_url: v.images.attached? ? url_for(v.images.first) : nil
+    }}.to_json %>
+  </script>
+</div>
+
+<%= render "shared/footer" %>

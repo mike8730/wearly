@@ -12,16 +12,6 @@
     </div>
 
     <div class="form-group">
-      <%= f.label :images, '商品画像' %>
-      <small class="form-text text-muted">クリックまたはドラッグ&ドロップで画像を選択 (最大5枚まで)</small>
-      <div id="image-preview-container"></div>
-      <%= f.file_field :images, multiple: true, id: 'item-images-input', class: 'form-control-file', accept: 'image/*', direct_upload: true %>
-      <label for="item-images-input" class="image-upload-label">
-        <span>画像を選択する</span>
-      </label>
-    </div>
-
-    <div class="form-group">
       <%= f.label :description, '商品の説明' %>
       <%= f.text_area :description, class: 'form-control', rows: 5 %>
     </div>
