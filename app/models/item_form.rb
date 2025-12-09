@@ -34,7 +34,8 @@ class ItemForm
       item.images.attach(images) if images.present?
 
       @variants.each do |variant_form|
-        item.item_variants.create!(variant_form.attributes)
+        variant = item.item_variants.create!(variant_form.attributes)
+        variant.images.attach(variant_form.images) if variant_form.images.present?
       end
     end
     true
@@ -53,7 +54,7 @@ end
 class VariantForm
   include ActiveModel::Model
 
-  attr_accessor :size_id, :color_id, :stock_quantity, :price
+  attr_accessor :size_id, :color_id, :stock_quantity, :price, :images
   validates :size_id, :color_id, :stock_quantity, :price, presence: true
 
   def attributes

@@ -36,8 +36,7 @@ class ItemsController < ApplicationController
       :description,
       :category_id,
       :gender_id,
-      images: [],
-      item_variants_attributes: [:id, :size_id, :color_id, :stock_quantity, :price, :_destroy]
+      item_variants_attributes: [:id, :size_id, :color_id, :stock_quantity, :price,:_destroy, { images: [] }]
     )
   end
 end

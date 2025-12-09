@@ -6,20 +6,30 @@
     <%# 左側: 画像エリア %>
     <div class="item-image-panel">
       <div class="main-image-container">
-        <% if @item.images.attached? %>
-          <%= image_tag @item.images.first, class: "main-image", id: "main-image" %>
+        <% first_variant = @item.item_variants.find { |v| v.images.attached? } %>
+        <% if first_variant %>
+          <%= image_tag url_for(first_variant.images.first), class: "main-image", id: "main-image" %>
         <% else %>
-          <%= image_tag 'item-sample.png', class: "main-image" %>
+          <%= image_tag 'item-sample.png', class: "main-image", id: "main-image" %>
         <% end %>
       </div>
-
-      <% if @item.images.length > 1 %>
-        <div class="thumbnail-container">
-          <% @item.images.each do |image| %>
-            <%= image_tag image, class: "thumbnail-image" %>
-          <% end %>
-        </div>
-      <% end %>
+      
+      <div class="thumbnail-container">
+        <% @item.item_variants.group_by(&:color_id).each do |color_id, variants| %>
+          <div class="thumbnail-group">
+            <h4><%= Color.find(color_id).name %></h4>
+            <div class="thumbnail-row">
+              <% variants.each do |variant| %>
+                <% if variant.images.attached? %>
+                  <% variant.images.each do |image| %>
+                    <%= image_tag url_for(image), class: "thumbnail-image" %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
 
     <%# 右側: 詳細・購入エリア %>
@@ -69,14 +79,16 @@
     </div>
   </div>
 
-  <%# 在庫データをJSで使うためのJSON（rawで出力） %>
+  <%# 在庫データをJSで使うためのJSON（画像URL・価格も含む） %>
   <script id="item-variants-data" type="application/json">
     <%= raw @item.item_variants.map { |v| {
       id: v.id,
       item_id: v.item_id,
       color_id: v.color_id,
       size_id: v.size_id,
-      stock: v.stock_quantity
+      stock: v.stock_quantity,
+      price: v.price,
+      image_url: v.images.attached? ? url_for(v.images.first) : nil
     }}.to_json %>
   </script>
 </div>

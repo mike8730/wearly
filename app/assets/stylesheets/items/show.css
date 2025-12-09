@@ -2,7 +2,7 @@
 .item-show {
   background-color: #f5f5f5;
   padding: 40px 0;
-  font-family: "Source Sans Pro", Helvetica, Arial, "æ¸¸ã‚´ã‚·ãƒƒã‚¯ä½“", "YuGothic", "ãƒ¡ã‚¤ãƒªã‚ª", "Meiryo", sans-serif;
+  font-family: "Source Sans Pro", Helvetica, Arial, "游ゴシック体", "YuGothic", "メイリオ", "Meiryo", sans-serif;
 }
 
 .item-box-container {
@@ -35,9 +35,8 @@
 }
 
 .thumbnail-container {
-  display: flex;
-  flex-wrap: wrap;
   gap: 10px;
+  display: flex;
 }
 
 .thumbnail-image {
@@ -189,4 +188,27 @@
 
 .back-btn:hover {
   opacity: 0.7;
+}
+
+/* ✅ 追加: カラーごとの画像グループ表示 */
+.thumbnail-group {
+  margin-bottom: 20px;
+}
+
+.thumbnail-group h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* 3枚ずつ横並び */
+.thumbnail-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.thumbnail-row .thumbnail-image {
+  flex: 0 0 calc(33.333% - 10px);
+  max-width: calc(33.333% - 10px);
 }

@@ -4,18 +4,32 @@
       <%= f.label :color_id, '色' %>
       <%= f.collection_select :color_id, Color.all, :id, :name, { prompt: '選択' }, { class: 'form-control' } %>
     </div>
+
     <div class="form-group col-md-4">
       <%= f.label :size_id, 'サイズ' %>
       <%= f.collection_select :size_id, Size.all, :id, :name, { prompt: '選択' }, { class: 'form-control' } %>
     </div>
+
     <div class="form-group col-md-2">
       <%= f.label :stock_quantity, '在庫数' %>
       <%= f.number_field :stock_quantity, class: 'form-control' %>
     </div>
+
     <div class="form-group col-md-2">
       <%= f.label :price, '価格' %>
       <%= f.number_field :price, class: 'form-control' %>
     </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <%= f.label :images, 'バリエーション画像' %>
+      <small class="form-text text-muted">このカラーに対応する画像をアップロード（複数可）</small>
+      <%= f.file_field :images, multiple: true, class: 'form-control-file', accept: 'image/*', direct_upload: true %>
+    </div>
+  </div>
+
+  <div class="form-row">
     <div class="form-group col-md-12 mt-2">
       <button type="button" class="remove-variant btn btn-sm btn-danger">削除</button>
     </div>
