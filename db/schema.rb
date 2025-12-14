@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_14_090316) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_14_092548) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -69,6 +69,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_14_090316) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "order_items", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "item_variant_id", null: false
+    t.integer "quantity", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_variant_id"], name: "index_order_items_on_item_variant_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
   create_table "orders", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -108,5 +118,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_14_090316) do
   add_foreign_key "item_variants", "colors"
   add_foreign_key "item_variants", "items"
   add_foreign_key "item_variants", "sizes"
+  add_foreign_key "order_items", "item_variants"
+  add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
 end
