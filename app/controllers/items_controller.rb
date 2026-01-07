@@ -3,9 +3,9 @@ class ItemsController < ApplicationController
     @items = Item.order(created_at: :desc)
   end
 
-    def new
-     @item_form = ItemForm.new
-     @item_form.item_variants_attributes = { "0" => { size_id: "", color_id: "", stock_quantity: "", price: "" } }
+  def new
+    @item_form = ItemForm.new
+    @item_form.item_variants_attributes = { "0" => { size_id: "", color_id: "", stock_quantity: "", price: "" } }
   end
   
   def create
@@ -24,6 +24,12 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.find(params[:id])
+    @item_variant =
+      if params[:variant_id].present?
+        ItemVariant.find(params[:variant_id])
+      else
+        @item.item_variants.first
+      end
   end
 
 

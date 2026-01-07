@@ -1,7 +1,8 @@
 class OrdersController < ApplicationController
   def new
     @order_form = OrderForm.new
-    @item_variant = ItemVariant.find(params[:item_variant_id])
+    @item_variant = ItemVariant.find(params[:variant_id])
+    @item = @item_variant.item
   end
 
   def create

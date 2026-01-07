@@ -25,12 +25,12 @@
       <% @items.each do |item| %>
         <% first_variant_with_image = item.item_variants.detect { |v| v.images.attached? } %>
           <li class='list'>
-            <%= link_to item_path(item) do %>
+            <%= link_to item_path(item, variant_id: first_variant_with_image&.id) do %>
               <div class='item-img-content'>
                 <% if first_variant_with_image %>
                   <%= image_tag url_for(first_variant_with_image.images.first), class: "item-img" %>
                 <% else %>
-                  <%= image_tag 'no-image.png', class: "item-img" %> <%# fallback画像（assets/images/no-image.png）を用意しておくと安心 %>
+                  <%= image_tag 'no-image.png', class: "item-img" %>
                 <% end %>
               </div>
               <div class='item-info'>

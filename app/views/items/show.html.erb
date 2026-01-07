@@ -67,7 +67,7 @@
       </div>
 
       <%# 購入ボタン %>
-      <%= link_to "購入画面に進む", new_item_order_path(@item), class: "item-red-btn disabled", id: "purchase-btn" %>
+      <%= link_to "購入画面に進む", new_order_path(variant_id: @item_variant.id), class: "item-red-btn disabled", id: "purchase-btn" %>
 
       <div class="item-explain-box">
         <h3 class="explain-title">商品説明</h3>

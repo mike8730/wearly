@@ -1,7 +1,7 @@
 <div class="item-new-wrapper">
   <h1 class="form-header">商品出品</h1>
 
-  <%= form_with model: @item_form, url: items_path, local: true, html: { multipart: true } do |f| %>
+  <%= form_with model: @order_form, url: items_path, local: true, html: { multipart: true } do |f| %>
     <!-- エラーメッセージ -->
     <%= render 'shared/error_messages', model: @item_form %>
 
