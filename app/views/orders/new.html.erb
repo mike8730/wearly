@@ -1,1 +1,116 @@
-<div>テストテキスト</div>
+<%= render "shared/header" %>
+
+<div class="order-main">
+  <div class="order-container">
+    <h2 class="order-title">注文内容の確認</h2>
+
+    <%# 注文商品情報 %>
+    <div class="order-item-section">
+      <div class="order-item-image">
+        <%# 商品画像があれば表示 %>
+        <% if @item.item_variants.present? && @item.item_variants.first.images.attached? %>
+           <%= image_tag @item.item_variants.first.images.first, class: 'order-img' %>
+        <% else %>
+           <%= image_tag 'item-sample.png', class: 'order-img' %>
+        <% end %>
+      </div>
+      <div class="order-item-details">
+        <h3 class="order-item-name"><%= @item.name %></h3>
+        
+        <div class="order-detail-row">
+          <span class="label">単価</span>
+          <span class="value"><%= number_to_currency(@item.price, unit: "¥", precision: 0, format: "%u%n") %></span>
+        </div>
+
+        <div class="order-detail-row">
+          <span class="label">個数</span>
+          <span class="value"><%= @order&.quantity || 1 %>個</span>
+        </div>
+
+        <%# バリエーション（色・サイズ）が指定されている場合 %>
+        <% if @item_variant %>
+          <div class="order-detail-row">
+            <span class="label">色</span>
+            <span class="value"><%= @item_variant.color.name %></span>
+          </div>
+          <div class="order-detail-row">
+            <span class="label">サイズ</span>
+            <span class="value"><%= @item_variant.size.name %></span>
+          </div>
+        <% end %>
+        
+        <div class="order-total-price">
+          <span>支払い金額</span>
+          <span><%= number_to_currency(@item.price * (@order&.quantity || 1), unit: "¥", precision: 0, format: "%u%n") %></span>
+        </div>
+      </div>
+    </div>
+
+    <%# 配送先入力フォーム %>
+    <div class="order-address-section">
+      <h3 class="section-title">配送先入力</h3>
+      <%= form_with model: @order_form, url: orders_path, local: true, class: 'order-form' do |f| %>
+        
+        <div class="form-group">
+          <div class='form-text-wrap'>
+            <label class="form-text">郵便番号</label>
+            <span class="indispensable">必須</span>
+          </div>
+          <%= f.text_field :postal_code, class:"input-default", placeholder:"例）123-4567", maxlength:"8" %>
+        </div>
+
+        <div class="form-group">
+          <div class='form-text-wrap'>
+            <label class="form-text">都道府県</label>
+            <span class="indispensable">必須</span>
+          </div>
+          <%= f.collection_select(:prefecture_id, Prefecture.all, :id, :name, {}, {class:"select-box", id:"prefecture"}) %>
+        </div>
+
+        <div class="form-group">
+          <div class='form-text-wrap'>
+            <label class="form-text">市区町村</label>
+            <span class="indispensable">必須</span>
+          </div>
+          <%= f.text_field :city, class:"input-default", placeholder:"例）横浜市緑区"%>
+        </div>
+
+        <div class="form-group">
+          <div class='form-text-wrap'>
+            <label class="form-text">番地</label>
+            <span class="indispensable">必須</span>
+          </div>
+          <%= f.text_field :addresses, class:"input-default", placeholder:"例）青山1-1-1"%>
+        </div>
+
+        <div class="form-group">
+          <div class='form-text-wrap'>
+            <label class="form-text">建物名</label>
+            <span class="form-any">任意</span>
+          </div>
+          <%= f.text_field :building, class:"input-default", placeholder:"例）柳ビル103"%>
+        </div>
+
+        <div class="form-group">
+          <div class='form-text-wrap'>
+            <label class="form-text">電話番号</label>
+            <span class="indispensable">必須</span>
+          </div>
+          <%= f.text_field :phone_number, class:"input-default", placeholder:"例）09012345678",maxlength:"11"%>
+        </div>
+
+        <%# 隠しフィールド（必要に応じて） %>
+        <% if @item_variant %>
+          <%= f.hidden_field :item_variant_id, value: @item_variant.id %>
+        <% end %>
+        <%= f.hidden_field :quantity, value: @order&.quantity || 1 %>
+
+        <div class="buy-btn">
+          <%= f.submit "注文を確定する", class:"item-red-btn" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render "shared/footer" %>
