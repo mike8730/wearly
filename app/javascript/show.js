@@ -72,7 +72,7 @@ document.addEventListener('turbo:load', () => {
 
       if (selectedVariant && selectedVariant.stock > 0) {
         purchaseButton.classList.remove('disabled');
-        purchaseButton.href = `/items/${selectedVariant.item_id}/orders/new?variant_id=${selectedVariant.id}`;
+        purchaseButton.href = `/orders/new?variant_id=${selectedVariant.id}`;
       } else {
         purchaseButton.classList.add('disabled');
         purchaseButton.href = "#";
