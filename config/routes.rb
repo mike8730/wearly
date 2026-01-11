@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   root to: "items#index"
   resources :items, only:[:index, :new, :create, :show] 
   resources :orders, only:[:new, :create]
+  resources :carts, only:[:index]
+  resources :cart_items, only:[:create]
 
   # Defines the root path route ("/")
   # root "posts#index"
