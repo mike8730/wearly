@@ -17,7 +17,7 @@
       <div class="thumbnail-container">
         <% @item.item_variants.group_by(&:color_id).each do |color_id, variants| %>
           <div class="thumbnail-group">
-            <h4><%= Color.find(color_id).name %></h4>
+            <h4><%= variants.first.color.name %></h4>
             <div class="thumbnail-row">
               <% variants.each do |variant| %>
                 <% if variant.images.attached? %>
@@ -67,7 +67,11 @@
       </div>
 
       <%# 購入ボタン %>
-      <%= link_to "購入画面に進む", new_order_path(variant_id: @item_variant.id), class: "item-red-btn disabled", id: "purchase-btn" %>
+      <%= form_with url: cart_items_path, method: :post, local: true do %>
+        <%= hidden_field_tag :item_variant_id, "", id:"selected-item-variant-id" %>
+        <%= submit_tag "カートに追加", class: "item-red-btn disabled", id: "add-to-cart-btn" %>
+      <% end %>
+      <%= link_to "購入画面に進む", "", class: "item-red-btn disabled", id: "purchase-btn" %>
 
       <div class="item-explain-box">
         <h3 class="explain-title">商品説明</h3>
