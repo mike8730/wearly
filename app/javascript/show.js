@@ -1,4 +1,15 @@
 document.addEventListener('turbo:load', () => {
+     function disableAddToCartButton() {
+        addToCartButton.classList.add('disabled');
+        addToCartButton.disabled = true;
+        hiddenVariantField.value = ""
+      }
+
+      function enableAddToCartButton(variantId){
+        addToCartButton.classList.remove('disabled');
+        addToCartButton.disabled = false;
+        hiddenVariantField.value = variantId;
+      }
   // 商品詳細ページでのみ実行
   if (!document.querySelector('.item-show')) return;
 
@@ -22,6 +33,9 @@ document.addEventListener('turbo:load', () => {
   const colorButtons = document.querySelectorAll('.color-btn');
   const sizeButtons = document.querySelectorAll('.size-btn');
   const purchaseButton = document.getElementById('purchase-btn');
+
+  const addToCartButton = document.getElementById('add-to-cart-btn');
+  const hiddenVariantField = document.getElementById('selected-item-variant-id');
 
   const variantsDataElement = document.getElementById('item-variants-data');
   window.variants = variantsDataElement ? JSON.parse(variantsDataElement.innerHTML) : [];
@@ -62,7 +76,7 @@ document.addEventListener('turbo:load', () => {
       });
     }
 
-    // 購入ボタンの有効/無効を切り替え
+    // 購入ボタン、カートに追加ボタンの有効/無効を切り替え
     if (selectedColor && selectedSize) {
       const selectedColorId = selectedColor.dataset.colorId;
       const selectedSizeId = selectedSize.dataset.sizeId;
@@ -71,13 +85,18 @@ document.addEventListener('turbo:load', () => {
       );
 
       if (selectedVariant && selectedVariant.stock > 0) {
+        enableAddToCartButton(selectedVariant.id);
+
         purchaseButton.classList.remove('disabled');
         purchaseButton.href = `/orders/new?variant_id=${selectedVariant.id}`;
       } else {
+        disableAddToCartButton();     
         purchaseButton.classList.add('disabled');
         purchaseButton.href = "#";
       }
     } else {
+      disableAddToCartButton();
+
       purchaseButton.classList.add('disabled');
       purchaseButton.href = "#";
     }
