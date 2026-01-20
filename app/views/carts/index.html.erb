@@ -1,0 +1,51 @@
+<div class="cart-container">
+
+  <h1 class="cart-title">ショッピングカート</h1>
+
+  <% @cart.cart_items.each do |cart_item| %>
+    <% variant = cart_item.item_variant %>
+    <% item = variant.item %>
+
+    <div class="cart-item">
+
+      <div class="cart-item-image">
+        <%= image_tag item.images.first.url, alt: item.name %>
+      </div>
+
+      <div class="cart-item-info">
+        <div class="cart-item-name"><%= item.name %></div>
+
+        <div class="cart-item-variant">
+          <span><%= variant.color.name %></span> /
+          <span><%= variant.size.name %></span>
+        </div>
+
+        <div class="cart-item-price">
+          ¥<%= number_with_delimiter(variant.price) %>
+        </div>
+
+        <div class="cart-item-quantity">
+          <%= cart_item.quantity %> 個
+        </div>
+
+        <div class="cart-item-subtotal">
+          小計：¥<%= number_with_delimiter(cart_item.subtotal) %>
+        </div>
+
+        <div class="cart-item-delete">
+          <%= link_to "削除", cart_item_path(cart_item), method: :delete, class: "delete-link" %>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+
+  <div class="cart-total">
+    合計金額：¥<%= number_with_delimiter(@cart.total_price) %>
+  </div>
+
+  <div class="cart-checkout">
+    <%= link_to "購入手続きへ進む", new_order_path, class: "checkout-btn" %>
+  </div>
+
+</div>
