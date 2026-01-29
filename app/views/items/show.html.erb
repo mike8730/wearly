@@ -6,25 +6,26 @@
     <%# 左側: 画像エリア %>
     <div class="item-image-panel">
       <div class="main-image-container">
-        <% first_variant = @item.item_variants.find { |v| v.images.attached? } %>
-        <% if first_variant %>
-          <%= image_tag url_for(first_variant.images.first), class: "main-image", id: "main-image" %>
+        <% first_color = @item.item_variants.map(&:color).find { |c| c.images.attached? } %>
+        <% if first_color %>
+          <%= image_tag first_color.images.first, class: "main-image", id: "main-image" %>
         <% else %>
-          <%= image_tag 'item-sample.png', class: "main-image", id: "main-image" %>
+          <%= image_tag 'no-image.png', class: "main-image", id: "main-image" %>
         <% end %>
       </div>
-      
+
       <div class="thumbnail-container">
         <% @item.item_variants.group_by(&:color_id).each do |color_id, variants| %>
+          <% color = variants.first.color %>
+
           <div class="thumbnail-group">
-            <h4><%= variants.first.color.name %></h4>
+            <h4><%= color.name %></h4>
+
             <div class="thumbnail-row">
-              <% variants.each do |variant| %>
-                <% if variant.images.attached? %>
-                  <% variant.images.each do |image| %>
-                    <%= image_tag url_for(image), class: "thumbnail-image" %>
-                  <% end %>
-                <% end %>
+              <% if color.images.attached? %>
+                <% color.images.each do |image| %>
+                  <%= image_tag image, class: "thumbnail-image" %>
+                <% end %>            
               <% end %>
             </div>
           </div>
