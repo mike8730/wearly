@@ -23,12 +23,13 @@
     </h2>
     <ul class='item-lists'>
       <% @items.each do |item| %>
-        <% first_variant_with_image = item.item_variants.detect { |v| v.images.attached? } %>
+        <% first_color_with_image = item.colors.detect { |c| c.images.attached? } %>
+        <% first_variant = item.item_variants.find_by(color_id: first_color_with_image&.id)%>
           <li class='list'>
-            <%= link_to item_path(item, variant_id: first_variant_with_image&.id) do %>
+            <%= link_to item_path(item, variant_id: first_variant&.id) do %>
               <div class='item-img-content'>
-                <% if first_variant_with_image %>
-                  <%= image_tag url_for(first_variant_with_image.images.first), class: "item-img" %>
+                <% if first_color_with_image %>
+                  <%= image_tag url_for(first_color_with_image.images.first), class: "item-img" %>
                 <% else %>
                   <%= image_tag 'no-image.png', class: "item-img" %>
                 <% end %>

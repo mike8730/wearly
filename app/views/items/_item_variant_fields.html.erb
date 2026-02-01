@@ -23,9 +23,9 @@
 
   <div class="form-row">
     <div class="form-group col-md-12">
-      <%= f.label :images, 'バリエーション画像' %>
+      <%= f.label :color_images, 'カラー画像' %>
       <small class="form-text text-muted">このカラーに対応する画像をアップロード（複数可）</small>
-      <%= f.file_field :images, multiple: true, class: 'form-control-file', accept: 'image/*', direct_upload: true %>
+      <%= f.file_field :color_images, multiple: true, class: 'form-control-file', accept: 'image/*', direct_upload: true %>
     </div>
   </div>
 
