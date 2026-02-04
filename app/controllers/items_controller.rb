@@ -9,10 +9,10 @@ class ItemsController < ApplicationController
   end
   
   def create
-    @item_form = ItemForm.new(item_params.except(:item_variants_attributes))
+    @item_form = ItemForm.new(item_params)
 
     if item_params[:item_variants_attributes].present?
-      @item_form.item_variants_attributes = item_params[:item_variants_attributes]
+      @item_form.item_variants_attributes = item_params[:item_variants_attributes].to_h
     end
 
     if @item_form.save
@@ -42,7 +42,7 @@ class ItemsController < ApplicationController
       :description,
       :category_id,
       :gender_id,
-      item_variants_attributes: [:id, :size_id, :color_id, :stock_quantity, :price,:_destroy, { images: [] }]
+      item_variants_attributes: [:id, :size_id, :color_id, :stock_quantity, :price,:_destroy, { color_images: [] }]
     )
   end
 end

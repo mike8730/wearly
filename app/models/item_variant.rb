@@ -4,7 +4,6 @@ class ItemVariant < ApplicationRecord
   
   has_many_attached :images
   has_many :cart_items, dependent: :destroy
-  belongs_to :item
   belongs_to :size
-  belongs_to :color
+  belongs_to :item_color
 end
