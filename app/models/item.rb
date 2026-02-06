@@ -6,7 +6,6 @@ class Item < ApplicationRecord
   validates :gender_id, presence: true, numericality: { other_than: 0 }
 
   extend ActiveHash::Associations::ActiveRecordExtensions
-  has_many :item_variants, dependent: :destroy
   has_many :item_colors, dependent: :destroy
   has_many :colors, through: :item_colors
   has_many :sizes, through: :item_variants
