@@ -5,15 +5,13 @@ class ItemsController < ApplicationController
 
   def new
     @item_form = ItemForm.new
-    @item_form.item_variants_attributes = { "0" => { size_id: "", color_id: "", stock_quantity: "", price: "" } }
+    @item_form.item_variants_attributes = [
+      { size_id: "", color_id: "", stock_quantity: "", price: "" } 
+      ]
   end
   
   def create
     @item_form = ItemForm.new(item_params)
-
-    if item_params[:item_variants_attributes].present?
-      @item_form.item_variants_attributes = item_params[:item_variants_attributes].to_h
-    end
 
     if @item_form.save
       redirect_to root_path, notice: "商品を出品しました"
@@ -24,12 +22,12 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.find(params[:id])
-    @item_variant =
-      if params[:variant_id].present?
-        ItemVariant.find(params[:variant_id])
-      else
-        @item.item_variants.first
-      end
+    @item_colors = @item.item_colors
+    
+    if params[:color_id].present?
+      @item_color = @item_colors.find_by(color_id: params[:color_id])
+      @item_variants = @item_color.item_variants if @item_color
+    end
   end
 
 
