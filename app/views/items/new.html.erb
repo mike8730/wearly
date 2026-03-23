@@ -45,7 +45,7 @@
 
     <!-- 追加用テンプレート -->
    <div id="item-variant-template" style="display:none;">
-     <%= f.fields_for :item_variants, ItemVariant.new, child_index: "NEW_RECORD" do |vf| %>
+     <%= f.fields_for :item_variants, VariantForm.new, child_index: "NEW_RECORD" do |vf| %>
        <%= render 'item_variant_fields', f: vf %>
      <% end %>
     </div>
