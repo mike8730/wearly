@@ -30,18 +30,17 @@ class ItemForm
 
       # ② 各 VariantForm を処理
       @variants.each do |variant_form|
-        # ②-1 ItemColor を作成（色ごとに1つ）
+        next if variant_form._destroy == "1"  # ← これが必須
+
         item_color = ItemColor.find_or_create_by!(
           item_id: item.id,
           color_id: variant_form.color_id
         )
 
-        # ②-2 色ごとの画像を ItemColor に attach
         if variant_form.color_images.present?
           item_color.images.attach(variant_form.color_images)
         end
 
-        # ②-3 ItemVariant（SKU）を作成
         item_color.item_variants.create!(
           size_id: variant_form.size_id,
           stock_quantity: variant_form.stock_quantity,
