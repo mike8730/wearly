@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_01_102653) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_14_113504) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -80,7 +80,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_01_102653) do
     t.bigint "color_id", null: false
     t.integer "stock_quantity", null: false
     t.integer "price", null: false
+    t.bigint "item_color_id", null: false
     t.index ["color_id"], name: "index_item_variants_on_color_id"
+    t.index ["item_color_id"], name: "index_item_variants_on_item_color_id"
     t.index ["item_id"], name: "index_item_variants_on_item_id"
     t.index ["size_id"], name: "index_item_variants_on_size_id"
   end

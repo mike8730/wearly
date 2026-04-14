@@ -6,10 +6,14 @@ class Item < ApplicationRecord
   validates :gender_id, presence: true, numericality: { other_than: 0 }
 
   extend ActiveHash::Associations::ActiveRecordExtensions
+
   has_many :item_colors, dependent: :destroy
+  has_many :item_variants, through: :item_colors   
   has_many :colors, through: :item_colors
   has_many :sizes, through: :item_variants
+
   has_many_attached :images
+
   belongs_to_active_hash :category
   belongs_to_active_hash :gender
 end
