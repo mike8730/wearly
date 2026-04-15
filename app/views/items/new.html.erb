@@ -42,14 +42,11 @@
       <% end %>
     </div>
 
-
-    <!-- 追加用テンプレート -->
-   <div id="item-variant-template" style="display:none;">
-     <%= f.fields_for :item_variants, VariantForm.new, child_index: "NEW_RECORD" do |vf| %>
-       <%= render 'item_variant_fields', f: vf %>
-     <% end %>
+    <div id="item-variant-template" style="display:none;">
+      <%= f.fields_for :item_variants, VariantForm.new, child_index: "NEW_RECORD" do |vf| %>
+        <%= render 'item_variant_fields', f: vf %>
+      <% end %>
     </div>
-
 
     <div class="links mt-3">
       <button type="button" id="add-variant" class="btn btn-outline-primary">＋ バリエーションを追加</button>

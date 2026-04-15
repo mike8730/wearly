@@ -4,10 +4,11 @@ class ItemsController < ApplicationController
   end
 
   def new
-    @item_form = ItemForm.new
-    @item_form.item_variants_attributes = [
-      { size_id: "", color_id: "", stock_quantity: "", price: "" } 
-      ]
+    @item_form = ItemForm.new(
+      item_variants_attributes: {
+        "0" => { size_id: "", color_id: "", stock_quantity: "", price: "" }
+      }
+    )
   end
   
   def create
@@ -40,7 +41,9 @@ class ItemsController < ApplicationController
       :description,
       :category_id,
       :gender_id,
-      item_variants_attributes: [:id, :size_id, :color_id, :stock_quantity, :price,:_destroy, { color_images: [] }]
+      item_variants_attributes: [
+        :id, :size_id, :color_id, :stock_quantity, :price, :_destroy, { color_images: [] }
+      ]
     )
   end
 end

@@ -1,15 +1,15 @@
 class VariantForm
   include ActiveModel::Model
 
-  attr_accessor :size_id, :color_id, :stock_quantity, :price, :color_images, :_destroy
+  attr_accessor :size_id, :color_id, :stock_quantity, :price,
+                :color_images, :_destroy
 
-
-  validates :size_id, :color_id, :stock_quantity, :price, presence: true
+  # ★ price の presence: true を削除する
+  validates :size_id, :color_id, :stock_quantity, presence: true
 
   def color_images
     Array(@color_images)
   end
-
 
   # ItemVariant に渡すのは size / stock / price のみ
   def attributes

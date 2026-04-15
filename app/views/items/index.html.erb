@@ -23,23 +23,22 @@
     </h2>
     <ul class='item-lists'>
       <% @items.each do |item| %>
-        <% first_color_with_image = item.colors.detect { |c| c.images.attached? } %>
-        <% first_variant = item.item_variants.find_by(color_id: first_color_with_image&.id)%>
-          <li class='list'>
-            <%= link_to item_path(item, variant_id: first_variant&.id) do %>
-              <div class='item-img-content'>
-                <% if first_color_with_image %>
-                  <%= image_tag url_for(first_color_with_image.images.first), class: "item-img" %>
-                <% else %>
-                  <%= image_tag 'no-image.png', class: "item-img" %>
-                <% end %>
-              </div>
-              <div class='item-info'>
-                <h3 class='item-name'><%= item.name %></h3>
-                <p class='item-price'>￥<%= item.price %>円</p>
-              </div>
-            <% end %>
-          </li>
+        <% first_item_color = item.item_colors.detect { |ic| ic.images.attached? } %>
+        <% first_variant = item.item_variants.find_by(item_color_id: first_item_color&.id) %>
+
+         <li class="list">
+           <%= link_to item_path(item, variant_id: first_variant&.id) do %>
+             <div class="item-img-content">
+               <% if first_item_color&.images&.attached? %>
+                 <%= image_tag first_item_color.images.first.variant(resize_to_limit: [300, 300]) %>
+               <% else %>
+                 <%= image_tag "no_image.png" %>
+               <% end %>
+             </div>
+             <p><%= item.name %></p>
+             <p><%= number_to_currency(item.price) %></p>
+           <% end %>
+         </li>
       <% end %>
     </ul>
   </div>
