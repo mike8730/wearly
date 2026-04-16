@@ -3,4 +3,8 @@ class CartItem < ApplicationRecord
 
   belongs_to :item_variant
   belongs_to :cart
+
+  def subtotal
+    item_variant.price * quantity
+  end
 end
