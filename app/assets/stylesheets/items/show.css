@@ -2,7 +2,7 @@
 .item-show {
   background-color: #f5f5f5;
   padding: 40px 0;
-  font-family: "Source Sans Pro", Helvetica, Arial, "游ゴシック体", "YuGothic", "メイリオ", "Meiryo", sans-serif;
+  font-family: "Source Sans Pro", Helvetica, Arial, "YuGothic", "Meiryo", sans-serif;
 }
 
 .item-box-container {
@@ -31,23 +31,22 @@
   width: 100%;
   height: auto;
   object-fit: cover;
-  aspect-ratio: 1 / 1; /* 画像を正方形に保つ */
+  aspect-ratio: 1 / 1;
 }
 
 .thumbnail-container {
-  gap: 10px;
   display: flex;
+  gap: 10px;
 }
 
 .thumbnail-image {
-  width: 22%; /* 4枚並びでgapを考慮 */
-  height: auto;
+  width: 22%;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   cursor: pointer;
   border: 1px solid #ddd;
   opacity: 0.7;
-  transition: opacity 0.2s ease;
-  aspect-ratio: 1 / 1;
+  transition: opacity 0.2s ease, border 0.2s ease;
 }
 
 .thumbnail-image:hover,
@@ -79,7 +78,6 @@
 
 .tax-included {
   font-size: 14px;
-  font-weight: normal;
   margin-left: 10px;
 }
 
@@ -124,28 +122,9 @@
 }
 
 .variant-btn.disabled {
-  background-color: #f5f5f5;
-  color: #ccc;
+  background-color: #eee;
+  color: #aaa;
   cursor: not-allowed;
-  text-decoration: line-through;
-}
-
-/* 説明 */
-.item-explain-box {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-}
-
-.explain-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.item-explain-box p {
-  font-size: 16px;
-  line-height: 1.6;
 }
 
 /* 購入ボタン */
@@ -161,54 +140,43 @@
   text-align: center;
   cursor: pointer;
   border-radius: 4px;
-  text-decoration: none;
-  transition: opacity 0.2s;
   margin-bottom: 30px;
-}
-
-.item-red-btn:hover {
-  opacity: 0.8;
+  transition: opacity 0.2s;
 }
 
 .item-red-btn.disabled {
   background: #ccc;
   border-color: #ccc;
   cursor: not-allowed;
-  opacity: 1;
 }
 
-/* 戻るボタン */
 .back-btn {
-  margin-top: auto; /* パネル下部に配置 */
+  margin-top: auto;
   padding-top: 20px;
-  text-decoration: none;
   color: #3ccace;
-  transition: opacity 0.2s;
+  text-decoration: none;
 }
 
 .back-btn:hover {
   opacity: 0.7;
 }
 
-/* ✅ 追加: カラーごとの画像グループ表示 */
-.thumbnail-group {
-  margin-bottom: 20px;
+/* 商品説明欄 */
+.item-description-box {
+  margin-bottom: 30px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
 }
 
-.thumbnail-group h4 {
-  font-size: 16px;
+.description-title {
+  font-size: 18px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
-/* 3枚ずつ横並び */
-.thumbnail-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.thumbnail-row .thumbnail-image {
-  flex: 0 0 calc(33.333% - 10px);
-  max-width: calc(33.333% - 10px);
+.description-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #444;
+  white-space: pre-line; /* 改行を反映 */
 }
