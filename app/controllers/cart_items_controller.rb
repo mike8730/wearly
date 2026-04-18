@@ -1,4 +1,6 @@
 class CartItemsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     @cart = current_user.cart || current_user.create_cart
     item_variant = ItemVariant.find(params[:item_variant_id])
