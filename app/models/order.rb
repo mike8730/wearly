@@ -12,4 +12,8 @@ class Order < ApplicationRecord
   belongs_to :user
   has_many :order_items, dependent: :destroy
   has_one :shipping_address, dependent: :destroy
+
+  def calculate_total_price
+    order_items.sum { |oi| oi.price * oi.quantity }
+  end
 end
