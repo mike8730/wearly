@@ -14,4 +14,26 @@ class CartItemsController < ApplicationController
 
     redirect_to carts_path, notice: "カートに追加しました"
   end
+
+  def increase
+    cart_item = CartItem.find(params[:id])
+    cart_item.update(quantity: cart_item.quantity + 1)
+    redirect_to carts_path
+  end
+
+  def decrease
+    cart_item = CartItem.find(params[:id])
+    if cart_item.quantity > 1
+      cart_item.update(quantity: cart_item.quantity - 1)
+    else
+      cart_item.destroy
+    end
+    redirect_to carts_path
+  end
+
+  def destroy
+    cart_item = CartItem.find(params[:id])
+    cart_item.destroy
+    redirect_to carts_path
+  end
 end

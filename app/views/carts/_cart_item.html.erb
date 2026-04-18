@@ -1,0 +1,44 @@
+<% variant = cart_item.item_variant %>
+<% item = variant.item %>
+<% item_color = variant.item_color %>
+
+<div class="cart-item">
+
+  <div class="cart-item-image">
+    <% if item_color && item_color.images.attached? %>
+      <%= image_tag item_color.images.first, alt: item.name %>
+    <% else %>
+      <%= image_tag "no_image.png", alt: item.name %>
+    <% end %>
+  </div>
+
+  <div class="cart-item-info">
+
+    <div class="cart-item-name"><%= item.name %></div>
+
+    <div class="cart-item-variant">
+      <span><%= item_color.color.name %></span> /
+      <span><%= variant.size.name %></span>
+    </div>
+
+    <div class="cart-item-price">
+      ¥<%= number_with_delimiter(variant.price) %>
+    </div>
+
+    <div class="cart-item-quantity">
+      <%= button_to "-", decrease_cart_item_path(cart_item), method: :patch, class: "qty-btn" %>
+      <span class="qty-number"><%= cart_item.quantity %></span>
+      <%= button_to "+", increase_cart_item_path(cart_item), method: :patch, class: "qty-btn" %>
+    </div>
+
+    <div class="cart-item-subtotal">
+      小計：¥<%= number_with_delimiter(cart_item.subtotal) %>
+    </div>
+
+    <div class="cart-item-delete">
+      <%= link_to "削除", cart_item_path(cart_item), method: :delete, class: "delete-link" %>
+    </div>
+
+  </div>
+
+</div>

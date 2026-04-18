@@ -90,7 +90,7 @@
 
       <!-- カートボタン -->
       <%= form_with url: cart_items_path, method: :post do %>
-        <%= hidden_field_tag :variant_id, nil, id: "selected-variant-id" %>
+        <%= hidden_field_tag :item_variant_id, nil, id: "selected-variant-id" %>
         <button type="submit" class="item-red-btn disabled" disabled>カートに入れる</button>
       <% end %>
 
