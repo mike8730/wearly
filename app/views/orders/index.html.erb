@@ -1,0 +1,29 @@
+<div class="orders-container">
+  <h1 class="orders-title">注文履歴</h1>
+
+  <% if @orders.any? %>
+    <div class="orders-list">
+      <% @orders.each do |order| %>
+        <div class="order-card">
+          <div class="order-info">
+            <p class="order-date">
+              注文日：<%= order.created_at.strftime("%Y/%m/%d %H:%M") %>
+            </p>
+            <p class="order-status">
+              ステータス：<%= order.status_i18n %>
+            </p>
+            <p class="order-total">
+              合計金額：¥<%= number_with_delimiter(order.total_price) %>
+            </p>
+          </div>
+
+          <div class="order-actions">
+            <%= link_to "詳細を見る", order_path(order), class: "order-detail-btn" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="no-orders">注文履歴はありません。</p>
+  <% end %>
+</div>
