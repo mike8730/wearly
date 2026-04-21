@@ -3,10 +3,10 @@ class Order < ApplicationRecord
   validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   enum status: {
-    pending: 'pending',
-    paid: 'paid',
-    shipped: 'shipped',
-    cancelled: 'cancelled'   
+    pending: 0,
+    paid: 1,
+    shipped: 2,
+    cancelled: 3   
   }
 
   belongs_to :user

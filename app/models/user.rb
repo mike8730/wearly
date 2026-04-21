@@ -16,4 +16,5 @@ class User < ApplicationRecord
   enum role: { general: 0, admin: 1 }
 
   has_one :cart, dependent: :destroy
+  has_many :orders, dependent: :destroy
 end
