@@ -1,4 +1,10 @@
 ja:
+  date:
+    order:
+      - :year
+      - :month
+      - :day
+
   enums:
     order:
       status:

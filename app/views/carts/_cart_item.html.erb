@@ -14,7 +14,9 @@
 
   <div class="cart-item-info">
 
-    <div class="cart-item-name"><%= item.name %></div>
+    <div class="cart-item-name">
+      <%= item.name %>
+    </div>
 
     <div class="cart-item-variant">
       <span><%= item_color.color.name %></span> /
@@ -26,9 +28,17 @@
     </div>
 
     <div class="cart-item-quantity">
-      <%= button_to "-", decrease_cart_item_path(cart_item), method: :patch, class: "qty-btn" %>
+
+      <%= form_with url: decrease_cart_item_path(cart_item), method: :patch, local: true do %>
+        <button class="qty-btn">-</button>
+      <% end %>
+
       <span class="qty-number"><%= cart_item.quantity %></span>
-      <%= button_to "+", increase_cart_item_path(cart_item), method: :patch, class: "qty-btn" %>
+
+      <%= form_with url: increase_cart_item_path(cart_item), method: :patch, local: true do %>
+        <button class="qty-btn">+</button>
+      <% end %>
+
     </div>
 
     <div class="cart-item-subtotal">
@@ -36,9 +46,10 @@
     </div>
 
     <div class="cart-item-delete">
-      <%= button_to "削除", cart_item_path(cart_item), method: :delete, class: "delete-link" %>
+      <%= form_with url: cart_item_path(cart_item), method: :delete, local: true do %>
+        <button class="delete-link">削除</button>
+      <% end %>
     </div>
 
   </div>
-
 </div>

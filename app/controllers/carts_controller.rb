@@ -4,3 +4,4 @@ class CartsController < ApplicationController
     @cart_items = @cart.cart_items.includes(:item_variant)
   end
 end
+

@@ -1,5 +1,4 @@
 <div class="cart-container">
-
   <h1 class="cart-title">ショッピングカート</h1>
 
   <% @cart.cart_items.each do |cart_item| %>
@@ -12,7 +11,13 @@
 
   <div class="cart-checkout">
     <%#= link_to "購入手続きへ進む", new_order_path, class: "checkout-btn" %>
-    <%= button_to "注文を確定する", orders_path, method: :post,class: "checkout-btn" %>
-  </div>
+    <%#= button_to "注文を確定する", orders_path, method: :post, class: "checkout-btn", data: { turbo: false } %>
 
+    <%= form_with url: orders_path, method: :post, local: true do %>
+      <%= submit_tag "注文を確定する", class: "checkout-btn", onclick: "console.log('clicked submit')" %>
+    <% end %>
+  </div>
 </div>
+
+
+

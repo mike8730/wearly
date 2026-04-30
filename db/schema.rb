@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_20_023911) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_24_104300) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -77,11 +77,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_20_023911) do
     t.datetime "updated_at", null: false
     t.bigint "item_id", null: false
     t.bigint "size_id", null: false
-    t.bigint "color_id", null: false
     t.integer "stock_quantity", null: false
     t.integer "price", null: false
-    t.bigint "item_color_id", null: false
-    t.index ["color_id"], name: "index_item_variants_on_color_id"
+    t.bigint "item_color_id"
     t.index ["item_color_id"], name: "index_item_variants_on_item_color_id"
     t.index ["item_id"], name: "index_item_variants_on_item_id"
     t.index ["size_id"], name: "index_item_variants_on_size_id"
@@ -114,6 +112,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_20_023911) do
     t.integer "total_price", null: false
     t.bigint "user_id", null: false
     t.integer "status"
+    t.string "order_number"
+    t.index ["order_number"], name: "index_orders_on_order_number", unique: true
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -162,7 +162,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_20_023911) do
   add_foreign_key "carts", "users"
   add_foreign_key "item_colors", "colors"
   add_foreign_key "item_colors", "items"
-  add_foreign_key "item_variants", "colors"
   add_foreign_key "item_variants", "items"
   add_foreign_key "item_variants", "sizes"
   add_foreign_key "order_items", "item_variants"

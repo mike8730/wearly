@@ -1,7 +1,6 @@
 <%= render "shared/header" %>
 
 <div class="item-show">
-
   <div class="item-box-container">
 
     <!-- 左側：画像パネル -->
@@ -48,7 +47,6 @@
         <p class="description-text"><%= @item.description %></p>
       </div>
 
-
       <!-- バリエーション選択 -->
       <div class="item-variants-section">
 
@@ -58,7 +56,8 @@
           <div class="variant-options">
             <% @item.item_colors.each do |ic| %>
               <button class="variant-btn color-btn"
-                      data-color-id="<%= ic.id %>">
+                      data-color-id="<%= ic.id %>"
+                      data-image="<%= ic.images.attached? ? url_for(ic.images.first) : '' %>">
                 <%= ic.color.name %>
               </button>
             <% end %>
@@ -99,7 +98,6 @@
     </div>
 
   </div>
-
 </div>
 
 <%= render "shared/footer" %>

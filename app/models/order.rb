@@ -1,6 +1,9 @@
 class Order < ApplicationRecord
+  before_create :set_order_number
+
   validates :status, presence: true
   validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :order_number, presence: true, uniqueness: true
 
   enum status: {
     pending: 0,
@@ -15,5 +18,13 @@ class Order < ApplicationRecord
 
   def calculate_total_price
     order_items.sum { |oi| oi.price * oi.quantity }
+  end
+
+  private
+  def set_order_number
+    loop do
+      self.order_number = "#{SecureRandom.hex(8)}"
+      break unless Order.exists?(order_number: order_number)
+    end
   end
 end

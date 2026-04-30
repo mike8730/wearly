@@ -1,11 +1,10 @@
 <div class="item-new-wrapper">
   <h1 class="form-header">商品出品</h1>
 
-  <%= form_with model: @item_form, url: items_path, local: true, html: { multipart: true } do |f| %>
-    <!-- エラーメッセージ -->
+  <%= form_with model: @item_form, url: items_path, local: true, multipart: true, data: { turbo: false } do |f| %>
+
     <%= render 'shared/error_messages', model: @item_form %>
 
-    <!-- 基本情報 -->
     <div class="form-group">
       <%= f.label :name, '商品名' %>
       <%= f.text_field :name, class: 'form-control' %>
@@ -18,42 +17,51 @@
 
     <div class="form-group">
       <%= f.label :category_id, 'カテゴリー' %>
-      <%= f.collection_select :category_id, Category.all, :id, :name, { prompt: '選択してください' }, { class: 'form-control' } %>
+      <%= f.collection_select :category_id,
+            Category.all,
+            :id,
+            :name,
+            { prompt: '選択してください' },
+            { class: 'form-control' } %>
     </div>
 
     <div class="form-group">
       <%= f.label :gender_id, '性別' %>
-      <%= f.collection_select :gender_id, Gender.all, :id, :name, { prompt: '選択してください' }, { class: 'form-control' } %>
+      <%= f.collection_select :gender_id,
+            Gender.all,
+            :id,
+            :name,
+            { prompt: '選択してください' },
+            { class: 'form-control' } %>
     </div>
 
     <div class="form-group">
       <%= f.label :price, '基本価格' %>
       <%= f.number_field :price, class: 'form-control' %>
-      <small class="form-text text-muted">バリエーションごとに価格が同じ場合は、こちらに設定してください。</small>
     </div>
 
     <hr>
 
-    <!-- バリエーション -->
     <h2 class="form-subheader">バリエーション設定</h2>
+
     <div id="item-variants">
-      <%= f.fields_for :item_variants do |variant_form| %>
-        <%= render 'item_variant_fields', f: variant_form %>
-      <% end %>
+      <%= render 'item_variant_fields', index: 0 %>
     </div>
 
     <div id="item-variant-template" style="display:none;">
-      <%= f.fields_for :item_variants, VariantForm.new, child_index: "NEW_RECORD" do |vf| %>
-        <%= render 'item_variant_fields', f: vf %>
-      <% end %>
+      <%= render 'item_variant_fields', index: 'NEW_RECORD' %>
     </div>
 
     <div class="links mt-3">
-      <button type="button" id="add-variant" class="btn btn-outline-primary">＋ バリエーションを追加</button>
+      <button type="button" id="add-variant" class="btn btn-outline-primary">
+        ＋ バリエーションを追加
+      </button>
     </div>
 
     <div class="form-actions mt-4">
       <%= f.submit '出品する', class: 'btn btn-primary' %>
     </div>
+
   <% end %>
 </div>
+
