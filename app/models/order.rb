@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  before_create :set_order_number
+  before_validation :set_order_number
 
   validates :status, presence: true
   validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
