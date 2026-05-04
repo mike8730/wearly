@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   root to: "items#index"
   resources :items, only:[:index, :new, :create, :show] 
-  resources :orders, only:[:index,:create]
+  resources :orders, only:[:index,:new,:create]
   resources :carts, only:[:index]
   resources :cart_items, only:[:create,:destroy] do
     member do

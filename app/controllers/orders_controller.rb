@@ -1,5 +1,9 @@
 class OrdersController < ApplicationController
 
+  def new
+    @cart = current_cart
+  end
+
   def create
     ActiveRecord::Base.transaction do
       @cart = current_user.cart
