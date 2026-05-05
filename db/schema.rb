@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_24_104300) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_04_012405) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -113,6 +113,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_24_104300) do
     t.bigint "user_id", null: false
     t.integer "status"
     t.string "order_number"
+    t.integer "payment_method", default: 0, null: false
     t.index ["order_number"], name: "index_orders_on_order_number", unique: true
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
