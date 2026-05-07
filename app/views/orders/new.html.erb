@@ -61,8 +61,9 @@
     <div class="order-address-section">
       <h3 class="section-title">配送先入力</h3>
 
-      <%= form_with model: @order_form, url: orders_path, local: true, class: 'order-form' do |f| %>
+      <%= form_with model: @order_form, url: orders_path, method: :post, local: true, class: 'order-form' do |f| %>
 
+        <%# --- 郵便番号 --- %>
         <div class="form-group">
           <div class='form-text-wrap'>
             <label class="form-text">郵便番号</label>
@@ -71,6 +72,7 @@
           <%= f.text_field :postal_code, class:"input-default", placeholder:"例）123-4567", maxlength:"8" %>
         </div>
 
+        <%# --- 都道府県 --- %>
         <div class="form-group">
           <div class='form-text-wrap'>
             <label class="form-text">都道府県</label>
@@ -79,6 +81,7 @@
           <%= f.collection_select(:prefecture_id, Prefecture.all, :id, :name, {}, {class:"select-box"}) %>
         </div>
 
+        <%# --- 市区町村 --- %>
         <div class="form-group">
           <div class='form-text-wrap'>
             <label class="form-text">市区町村</label>
@@ -87,22 +90,25 @@
           <%= f.text_field :city, class:"input-default", placeholder:"例）横浜市緑区"%>
         </div>
 
+        <%# --- 番地 --- %>
         <div class="form-group">
           <div class='form-text-wrap'>
             <label class="form-text">番地</label>
             <span class="indispensable">必須</span>
           </div>
-          <%= f.text_field :addresses, class:"input-default", placeholder:"例）青山1-1-1"%>
+          <%= f.text_field :address, class:"input-default", placeholder:"例）青山1-1-1"%>
         </div>
 
+        <%# --- 建物名 --- %>
         <div class="form-group">
           <div class='form-text-wrap'>
             <label class="form-text">建物名</label>
             <span class="form-any">任意</span>
           </div>
-          <%= f.text_field :building, class:"input-default", placeholder:"例）柳ビル103"%>
+          <%= f.text_field :building, class:"input-default", placeholder:"例）〇〇マンション001号"%>
         </div>
 
+        <%# --- 電話番号 --- %>
         <div class="form-group">
           <div class='form-text-wrap'>
             <label class="form-text">電話番号</label>
@@ -111,14 +117,34 @@
           <%= f.text_field :phone_number, class:"input-default", placeholder:"例）09012345678", maxlength:"11"%>
         </div>
 
-        <%# カート内の情報を hidden で送る %>
-        <% @cart.cart_items.each do |cart_item| %>
-          <%= f.hidden_field :item_variant_id, value: cart_item.item_variant_id %>
-          <%= f.hidden_field :quantity, value: cart_item.quantity %>
-        <% end %>
+        <%# ============================
+            決済方法の選択
+            ============================ %>
+        <div class="payment-method-section">
+          <h3 class="section-title">支払い方法</h3>
 
-        <div class="buy-btn">
-          <%= f.submit "注文を確定する", class:"item-red-btn" %>
+          <div class="payment-method-grid">
+            <% Order.payment_methods.keys.each do |method| %>
+              <label class="payment-card">
+                <%= f.radio_button :payment_method, method, class: "payment-radio" %>
+
+                <div class="payment-card-content">
+                  <div class="payment-icon">
+                    <%= method.humanize %>
+                  </div>
+
+                  <div class="payment-label">
+                    <%= t("payment_methods.#{method}") rescue method.humanize %>
+                  </div>
+                </div>
+              </label>
+            <% end %>
+          </div>
+        </div>
+
+        <%# --- 注文確定ボタン --- %>
+        <div class="order-submit-wrapper">
+          <%= f.submit '注文を確定する', class: 'checkout-btn' %>
         </div>
 
       <% end %>
