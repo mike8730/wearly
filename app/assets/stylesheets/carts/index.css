@@ -91,3 +91,12 @@
   position: relative;
   z-index: 20;
 }
+
+.flash-alert {
+  background: #ffe5e5;
+  color: #c00;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
