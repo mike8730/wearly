@@ -3,6 +3,14 @@
 <div class="order-main">
   <div class="order-container">
     <h2 class="order-title">注文内容の確認</h2>
+    
+    <% if @order.errors.any? %>
+      <div class="alert alert-danger order-errors">
+        <% @order.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
 
     <%# ============================
         注文商品一覧

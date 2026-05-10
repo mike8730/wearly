@@ -246,3 +246,21 @@
 .checkout-btn:active {
   transform: scale(0.97);
 }
+
+.order-errors {
+  background: #ffe8e8;              /* 優しい赤背景（強すぎない） */
+  border-left: 4px solid #e63946;   /* 左線でアクセント（ミニマルで洗練） */
+  padding: 14px 18px;
+  margin: 20px 0;
+  border-radius: 6px;
+
+  font-size: 14px;
+  color: #b00020;                   /* 落ち着いた赤で読みやすい */
+  line-height: 1.6;
+}
+
+.order-errors p {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+}

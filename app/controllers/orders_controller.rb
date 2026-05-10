@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
     end
     
     if @order.save
-      redirect_to orders_path, notice: "注文が完了しました"
+      redirect_to orders_path, notice: "注文が完了しました"      
     else
       render :new, status: :unprocessable_entity
     end
