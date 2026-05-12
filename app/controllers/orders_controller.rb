@@ -34,6 +34,14 @@ class OrdersController < ApplicationController
       .includes(:order_items)
   end
 
+  def show
+    @order = current_user.orders
+      .includes(order_items: {item_variant:[:item, :item_color]})
+      .find(params[:id])
+    
+    @order_items = @order.order_items
+  end
+
   private
   def order_form_params
     params.permit(
