@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post 'payments/checkout', to: 'payments#checkout'
+
   # Defines the root path route ("/")
   # root "posts#index"
 end
