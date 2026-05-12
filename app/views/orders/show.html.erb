@@ -115,6 +115,16 @@
     <% end %>
   </div>
 
+  <% if @order.pending? || @order.paid? %>
+    <div class="order-cancel-container">
+      <%= button_to "注文をキャンセルする",
+                    cancel_order_path(@order),
+                    method: :patch,
+                    data: { confirm: "本当にキャンセルしますか？" },
+                    class: "order-cancel-button" %>
+    </div>
+  <% end %>
+
   <div class="back-to-top">
     <%= link_to "トップページへ戻る", root_path, class: "back-btn" %>
   </div>

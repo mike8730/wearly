@@ -1,4 +1,10 @@
 <div class="orders-container">
+  <% if flash.any?%>
+    <% flash.each do |key, message| %>
+      <div class="flash <%= key %>"><%= message %></div>
+    <% end %>
+  <% end %>
+
   <h1 class="orders-title">注文履歴</h1>
 
   <% if @orders.any? %>

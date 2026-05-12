@@ -42,6 +42,21 @@ class OrdersController < ApplicationController
     @order_items = @order.order_items
   end
 
+  def cancel
+    @order = current_user.orders.find(params[:id])
+
+    if @order.pending? || @order.paid?
+      @order.update!(status: :cancelled)
+      @order.order_items.each do |item|
+        variant = item.item_variant
+        variant.update!(stock_quantity: variant.stock_quantity + item.quantity)
+      end
+      redirect_to orders_path, notice: "注文をキャンセルしました"
+    else
+      redirect_to order_path(@order), alert: "この注文はキャンセルできません"
+    end
+  end
+
   private
   def order_form_params
     params.permit(
