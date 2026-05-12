@@ -1,0 +1,25 @@
+<div class="cart-container">
+  <h1 class="cart-title">ショッピングカート</h1>
+
+  <% if flash[:alert] %>
+    <div class="flash-alert">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+
+  <% @cart.cart_items.each do |cart_item| %>
+    <%= render "cart_item", cart_item: cart_item %>
+  <% end %>
+
+  <div class="cart-total">
+    合計金額：¥<%= number_with_delimiter(@cart.total_price) %>
+  </div>
+
+  <div class="cart-checkout">
+    <%= link_to "購入手続きへ進む", checkout_carts_path, class: "checkout-btn" %>
+  </div>
+</div>
+
+
+

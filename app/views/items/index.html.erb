@@ -4,7 +4,6 @@
   <%# メインビジュアル %>
   <div class="main-visual-slider">
     <div class="slider-track">
-      <%# --- スライドさせたい画像6枚を2セット並べます --- %>
       <% 2.times do %>
         <div class="slide"><%= image_tag 'S__70008841.jpg', class: 'main-visual-img' %></div>
         <div class="slide"><%= image_tag 'S__70008843.jpg', class: 'main-visual-img' %></div>
@@ -21,24 +20,28 @@
     <h2 class='item-contents-title'>
       NEW ARRIVALS
     </h2>
+
     <ul class='item-lists'>
       <% @items.each do |item| %>
-        <% first_variant_with_image = item.item_variants.detect { |v| v.images.attached? } %>
-          <li class='list'>
-            <%= link_to item_path(item) do %>
-              <div class='item-img-content'>
-                <% if first_variant_with_image %>
-                  <%= image_tag url_for(first_variant_with_image.images.first), class: "item-img" %>
-                <% else %>
-                  <%= image_tag 'no-image.png', class: "item-img" %> <%# fallback画像（assets/images/no-image.png）を用意しておくと安心 %>
-                <% end %>
-              </div>
-              <div class='item-info'>
-                <h3 class='item-name'><%= item.name %></h3>
-                <p class='item-price'>￥<%= item.price %>円</p>
-              </div>
-            <% end %>
-          </li>
+        <% item_color = item.item_colors.first %>
+
+        <%# 画像の URL を決める（最小構成） %>
+        <% image_tag_html =
+             if item_color&.images&.attached?
+               image_tag(item_color.images.first)
+             else
+               image_tag("no_image.png")
+             end %>
+
+        <li class="list">
+          <%= link_to item_path(item) do %>
+            <div class="item-img-content">
+              <%= image_tag_html %>
+            </div>
+            <p><%= item.name %></p>
+            <p><%= number_to_currency(item.price, unit: "¥", precision: 0, format: "%u%n") %></p>
+          <% end %>
+        </li>
       <% end %>
     </ul>
   </div>

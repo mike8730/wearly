@@ -1,107 +1,107 @@
-document.addEventListener('turbo:load', () => {
-  // 商品詳細ページでのみ実行
-  if (!document.querySelector('.item-show')) return;
+document.addEventListener("turbo:load", () => {
+  if (!document.querySelector(".item-show")) return;
 
-  // --- 画像ギャラリー機能 ---
-  const mainImage = document.getElementById('main-image');
-  const thumbnails = document.querySelectorAll('.thumbnail-image');
+  // --- メイン画像切り替え ---
+  const mainImage = document.getElementById("main-image");
+  const thumbnails = document.querySelectorAll(".thumbnail-image");
 
-  if (thumbnails.length > 0) {
-    thumbnails[0].classList.add('active');
+  thumbnails.forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+      mainImage.src = thumb.dataset.image;
+      thumbnails.forEach((t) => t.classList.remove("active"));
+      thumb.classList.add("active");
+    });
+  });
+
+  // --- バリエーション選択 ---
+  const colorButtons = document.querySelectorAll(".color-btn");
+  const sizeButtons = document.querySelectorAll(".size-btn");
+  const hiddenVariantField = document.getElementById("selected-variant-id");
+  const addToCartButton = document.querySelector(".item-red-btn");
+
+  const variants = JSON.parse(document.getElementById("item-variants-data").textContent);
+
+  function disableAddToCart() {
+    addToCartButton.classList.add("disabled");
+    addToCartButton.disabled = true;
+    hiddenVariantField.value = "";
   }
 
-  thumbnails.forEach(thumbnail => {
-    thumbnail.addEventListener('click', () => {
-      mainImage.src = thumbnail.src;
-      thumbnails.forEach(t => t.classList.remove('active'));
-      thumbnail.classList.add('active');
-    });
+  function enableAddToCart(variantId) {
+    addToCartButton.classList.remove("disabled");
+    addToCartButton.disabled = false;
+    hiddenVariantField.value = variantId;
+  }
+
+  // 初期状態：在庫 0 のサイズを無効化
+  sizeButtons.forEach((btn) => {
+    const sizeId = btn.dataset.sizeId;
+
+    const hasStock = variants.some(v =>
+      v.size_id == sizeId && v.stock > 0
+    );
+
+    if (!hasStock) {
+      btn.disabled = true;
+      btn.classList.add("disabled");
+    }
   });
 
-  // --- バリエーション選択機能 ---
-  const colorButtons = document.querySelectorAll('.color-btn');
-  const sizeButtons = document.querySelectorAll('.size-btn');
-  const purchaseButton = document.getElementById('purchase-btn');
+  function updateSelection() {
+    const selectedColor = document.querySelector(".color-btn.selected");
+    const selectedSize = document.querySelector(".size-btn.selected");
 
-  const variantsDataElement = document.getElementById('item-variants-data');
-  window.variants = variantsDataElement ? JSON.parse(variantsDataElement.innerHTML) : [];
-
-  const updateVariantSelection = () => {
-    const selectedColor = document.querySelector('.color-btn.selected');
-    const selectedSize = document.querySelector('.size-btn.selected');
-
-    // サイズボタンの有効/無効と売り切れ表示を切り替え
-    if (selectedColor) {
-      const selectedColorId = selectedColor.dataset.colorId;
-      sizeButtons.forEach(sizeBtn => {
-        const sizeId = sizeBtn.dataset.sizeId;
-        const isAvailable = window.variants.some(v =>
-          v.color_id == selectedColorId && v.size_id == sizeId && v.stock > 0
-        );
-
-        sizeBtn.disabled = !isAvailable;
-        if (!isAvailable) {
-          sizeBtn.classList.remove('selected');
-        }
-
-        // 売り切れラベルの表示切り替え
-        const soldOutLabel = document.querySelector(`.sold-out-label[data-size-id="${sizeId}"]`);
-        if (soldOutLabel) {
-          soldOutLabel.style.display = isAvailable ? "none" : "inline";
-        }
-      });
-    } else {
-      sizeButtons.forEach(sizeBtn => {
-        sizeBtn.disabled = false;
-        sizeBtn.classList.remove('selected');
-
-        const soldOutLabel = document.querySelector(`.sold-out-label[data-size-id="${sizeBtn.dataset.sizeId}"]`);
-        if (soldOutLabel) {
-          soldOutLabel.style.display = "none";
-        }
-      });
-    }
-
-    // 購入ボタンの有効/無効を切り替え
     if (selectedColor && selectedSize) {
-      const selectedColorId = selectedColor.dataset.colorId;
-      const selectedSizeId = selectedSize.dataset.sizeId;
-      const selectedVariant = window.variants.find(v =>
-        v.color_id == selectedColorId && v.size_id == selectedSizeId
+      const colorId = selectedColor.dataset.colorId;
+      const sizeId = selectedSize.dataset.sizeId;
+
+      const variant = variants.find(v =>
+        v.color_id == colorId && v.size_id == sizeId
       );
 
-      if (selectedVariant && selectedVariant.stock > 0) {
-        purchaseButton.classList.remove('disabled');
-        purchaseButton.href = `/items/${selectedVariant.item_id}/orders/new?variant_id=${selectedVariant.id}`;
+      if (variant && variant.stock > 0) {
+        enableAddToCart(variant.id);
       } else {
-        purchaseButton.classList.add('disabled');
-        purchaseButton.href = "#";
+        disableAddToCart();
       }
     } else {
-      purchaseButton.classList.add('disabled');
-      purchaseButton.href = "#";
+      disableAddToCart();
     }
-  };
+  }
 
-  // カラーボタンのクリックイベント
-  colorButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      colorButtons.forEach(btn => btn.classList.remove('selected'));
-      button.classList.add('selected');
-      updateVariantSelection();
+  // --- カラー選択 ---
+  colorButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      colorButtons.forEach((b) => b.classList.remove("selected"));
+      btn.classList.add("selected");
+
+      // カラーに対応するサムネイルをメインに反映
+      const selectedColorId = btn.dataset.colorId;
+      const targetThumb = Array.from(thumbnails).find(
+        (t) => t.dataset.colorId === selectedColorId
+      );
+
+      if (targetThumb) {
+        mainImage.src = targetThumb.dataset.image;
+        thumbnails.forEach((t) => t.classList.remove("active"));
+        targetThumb.classList.add("active");
+      }
+
+      updateSelection();
     });
   });
 
-  // サイズボタンのクリックイベント
-  sizeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      if (button.disabled) return; // 無効なボタンは無視
-      sizeButtons.forEach(btn => btn.classList.remove('selected'));
-      button.classList.add('selected');
-      updateVariantSelection();
+  // --- サイズ選択（カラー選択状態は維持） ---
+  sizeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.disabled) return;
+
+      sizeButtons.forEach((b) => b.classList.remove("selected"));
+      btn.classList.add("selected");
+
+      updateSelection();
     });
   });
 
-  // 初期状態の更新
-  updateVariantSelection();
+  disableAddToCart();
 });

@@ -1,0 +1,24 @@
+ja:
+  date:
+    order:
+      - :year
+      - :month
+      - :day
+
+  enums:
+    order:
+      status:
+        pending: "支払い待ち"
+        paid: "支払い済み"
+        shipped: "発送済み"
+        cancelled: "キャンセル済み"
+
+  payment_methods:
+    credit_card: "クレジットカード"
+    bank_transfer: "銀行振込"
+    paypay: "PayPay"
+    convenience_store: "コンビニ払い"
+    cod: "代引き"
+    carrier_payment: "キャリア決済"
+    wallet: "Apple Pay / Google Pay"
+    amazon_pay: "Amazon Pay"

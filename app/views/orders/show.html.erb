@@ -1,0 +1,134 @@
+<%= render "shared/header" %>
+
+<div class="order-show-container">
+
+  <% if params[:completed] %>
+    <h2 class="order-show-title">ご注文が完了しました</h2>
+    <div class="order-show-message">
+      ご注文いただきありがとうございます。<br>
+      以下がご注文内容の詳細です。
+    </div>
+  <% else %>
+    <h2 class="order-show-title">注文詳細</h2>
+  <% end %>
+
+  <!-- 注文情報 -->
+  <div class="order-info-card">
+    <h3 class="section-title">注文情報</h3>
+
+    <div class="order-info-row">
+      <span class="label">注文番号</span>
+      <span class="value"><%= @order.order_number %></span>
+    </div>
+
+    <div class="order-info-row">
+      <span class="label">注文日時</span>
+      <span class="value"><%= @order.created_at.strftime("%Y/%m/%d %H:%M") %></span>
+    </div>
+
+    <div class="order-info-row">
+      <span class="label">支払い方法</span>
+      <span class="value"><%= @order.payment_method_i18n %></span>
+    </div>
+
+    <div class="order-info-row total">
+      <span class="label">合計金額</span>
+      <span class="value total-price">
+        <%= number_to_currency(@order.total_price, unit: "¥", precision: 0, format: "%u%n") %>
+      </span>
+    </div>
+  </div>
+
+  <!-- 配送先 -->
+  <div class="order-info-card">
+    <h3 class="section-title">配送先</h3>
+
+    <div class="order-info-row">
+      <span class="label">郵便番号</span>
+      <span class="value"><%= @order.shipping_address.postal_code %></span>
+    </div>
+
+    <div class="order-info-row">
+      <span class="label">住所</span>
+      <span class="value">
+        <%= @order.shipping_address.prefecture.name %>
+        <%= @order.shipping_address.city %>
+        <%= @order.shipping_address.address %>
+        <%= @order.shipping_address.building %>
+      </span>
+    </div>
+
+    <div class="order-info-row">
+      <span class="label">電話番号</span>
+      <span class="value"><%= @order.shipping_address.phone_number %></span>
+    </div>
+  </div>
+
+  <!-- 注文商品一覧 -->
+  <div class="order-items-section">
+    <h3 class="section-title">注文商品</h3>
+
+    <% @order.order_items.each do |order_item| %>
+      <% variant = order_item.item_variant %>
+      <% item = variant.item %>
+
+      <div class="order-item-card">
+        <div class="order-item-image">
+          <% if variant.item_color.images.attached? %>
+            <%= image_tag variant.item_color.images.first, class: "order-item-img" %>
+          <% else %>
+            <%= image_tag "item-sample.png", class: "order-item-img" %>
+          <% end %>
+        </div>
+
+        <div class="order-item-details">
+          <h4 class="item-name"><%= item.name %></h4>
+
+          <div class="detail-row">
+            <span class="label">単価</span>
+            <span class="value"><%= number_to_currency(order_item.price, unit: "¥", precision: 0, format: "%u%n") %></span>
+          </div>
+
+          <div class="detail-row">
+            <span class="label">数量</span>
+            <span class="value"><%= order_item.quantity %>個</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="label">色</span>
+            <span class="value"><%= variant.color.name %></span>
+          </div>
+
+          <div class="detail-row">
+            <span class="label">サイズ</span>
+            <span class="value"><%= variant.size.name %></span>
+          </div>
+
+          <div class="detail-row subtotal">
+            <span class="label">小計</span>
+            <span class="value">
+              <%= number_to_currency(order_item.price * order_item.quantity, unit: "¥", precision: 0, format: "%u%n") %>
+            </span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @order.pending? || @order.paid? %>
+    <div class="order-cancel-container">
+      <%= button_to "注文をキャンセルする",
+                    cancel_order_path(@order),
+                    method: :patch,
+                    data: { confirm: "本当にキャンセルしますか？" },
+                    class: "order-cancel-button" %>
+    </div>
+  <% end %>
+
+  <div class="back-to-top">
+    <%= link_to "トップページへ戻る", root_path, class: "back-btn" %>
+  </div>
+
+</div>
+
+<%= render "shared/footer" %>
