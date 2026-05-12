@@ -6,6 +6,7 @@ class OrderForm
   attr_accessor :order_items_attributes
   attr_accessor :user_id
   attr_accessor :payment_method
+  attr_reader :order
   
   validates :postal_code, presence: true, format: { with: /\A\d{3}-\d{4}\z/ }
   validates :city, presence: true
@@ -19,7 +20,7 @@ class OrderForm
     return false unless valid?
 
     ActiveRecord::Base.transaction do
-      order = Order.create!(
+      @order = Order.create!(
         user_id: user_id,
         payment_method: payment_method,
         total_price: 0,
