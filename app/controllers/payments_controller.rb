@@ -10,7 +10,10 @@ class PaymentsController < ApplicationController
         amount: @order.total_price,
         currency: "JPY",
         return_url: order_url(@order),
-        cancel_url: order_url(@order)
+        cancel_url: order_url(@order),
+        metadata: {
+          order_id: @order.id
+        }
       }.to_json,
       {
         "Authorization" => "Bearer #{ENV['KOMOJU_SECRET_KEY']}",
