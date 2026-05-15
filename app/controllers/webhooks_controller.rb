@@ -1,5 +1,6 @@
 class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token  # Webhook は外部から来るので必須
+  skip_before_action :basic_auth, only: :komoju
 
   def komoju
     # 生のリクエストボディを取得
