@@ -20,13 +20,67 @@ class OrdersController < ApplicationController
         quantity: cart_item.quantity
       }
     end
-    
+
     if @order.save
-      redirect_to order_path(@order.order, completed: true), notice: "注文が完了しました"      
+      order = @order.order
+
+      # KOMOJU API 接続
+      conn = Faraday.new(
+        url: "https://komoju.com"
+      ) do |f|
+        # KOMOJU は Basic 認証
+        f.request :authorization, :basic, ENV["KOMOJU_SECRET_KEY"], ""
+
+        # timeout 設定
+        f.options.timeout = 15
+        f.options.open_timeout = 5
+      end
+
+      # Checkout Session 作成
+      response = conn.post(
+        "/api/v1/sessions",
+        {
+          amount: order.total_price,
+          currency: "JPY",
+
+          # 利用する決済方法
+          payment_types: ["credit_card"],
+
+          # 決済完了後の戻り先
+          return_url: order_url(order, completed: true),
+
+          metadata: {
+            order_id: order.id.to_s
+          }
+        }.to_json,
+        {
+          "Content-Type" => "application/json"
+        }
+      )
+
+      unless response.success?
+        Rails.logger.error(
+          "KOMOJU API Error: #{response.status} #{response.body}"
+        )
+
+        redirect_to order_path(order),
+                    alert: "決済ページの生成に失敗しました。"
+
+        return
+      end
+
+      # JSON パース
+      session_data = JSON.parse(response.body)
+
+      # KOMOJU Checkout 画面へ遷移
+      redirect_to session_data["session_url"],
+                  allow_other_host: true
+
     else
       render :new, status: :unprocessable_entity
     end
   end
+
 
   def index
     @orders = current_user.orders

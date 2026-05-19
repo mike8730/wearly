@@ -1,36 +1,36 @@
 class WebhooksController < ApplicationController
-  skip_before_action :verify_authenticity_token  # Webhook は外部から来るので必須
+  # Webhook は外部から来るので CSRF 無効化
+  skip_before_action :verify_authenticity_token
   skip_before_action :basic_auth, only: :komoju
 
   def komoju
-    # 生のリクエストボディを取得
+    # 生の JSON を取得
     payload = request.body.read
 
-    # JSON をパース
+    # JSON パース（失敗したら 400）
     event = JSON.parse(payload) rescue nil
-
-    # パースできなければ 400 を返す
     return head :bad_request if event.nil?
 
-    # イベントタイプを取得
+    # イベントタイプ
     event_type = event["type"]
 
-    # 注文IDを取得（KOMOJU の payload に含まれる）
+    # metadata から order_id を取得（string）
     order_id = event.dig("data", "metadata", "order_id")
+    return head :bad_request if order_id.blank?
 
-    # 注文が見つからなければ 404
+    # Order を特定（見つからなければ 404）
     order = Order.find_by(id: order_id)
     return head :not_found if order.nil?
 
     # イベントごとの処理
     case event_type
     when "payment.captured"
-      order.update(status: :paid)
+      order.update!(status: :paid)
     when "payment.failed"
-      order.update(status: :failed)
+      order.update!(status: :failed)
     end
 
-    # Webhook には必ず 200 を返す
+    # Webhook は必ず 200 を返す
     head :ok
   end
 end
