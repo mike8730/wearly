@@ -69,7 +69,7 @@
     <div class="order-address-section">
       <h3 class="section-title">配送先入力</h3>
 
-      <%= form_with model: @order_form, url: orders_path, method: :post, local: true, class: 'order-form' do |f| %>
+      <%= form_with model: @order_form, url: orders_path, method: :post, data: { turbo: false }, class: 'order-form' do |f| %>
 
         <%# --- 郵便番号 --- %>
         <div class="form-group">
