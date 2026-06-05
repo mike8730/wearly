@@ -11,10 +11,9 @@ class Order < ApplicationRecord
     bank_transfer: 1,       # 銀行振込
     paypay: 2,              # PayPay
     convenience_store: 3,   # コンビニ払い
-    cod: 4,                 # 代引き
-    carrier_payment: 5,     # キャリア決済（docomo/au/SoftBank）
-    wallet: 6,              # Apple Pay / Google Pay
-    amazon_pay: 7           # Amazon Pay
+    carrier_payment: 4,     # キャリア決済（docomo/au/SoftBank）
+    wallet: 5,              # Apple Pay / Google Pay
+    amazon_pay: 6           # Amazon Pay
   }
 
 
