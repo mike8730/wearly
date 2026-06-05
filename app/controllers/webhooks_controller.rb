@@ -1,36 +1,54 @@
 class WebhooksController < ApplicationController
-  # Webhook は外部から来るので CSRF 無効化
   skip_before_action :verify_authenticity_token
   skip_before_action :basic_auth, only: :komoju
 
+  KOMOJU_SECRET = ENV["KOMOJU_WEBHOOK_SECRET"]
+
   def komoju
-    # 生の JSON を取得
     payload = request.body.read
 
-    # JSON パース（失敗したら 400）
-    event = JSON.parse(payload) rescue nil
-    return head :bad_request if event.nil?
+    return head :bad_request unless valid_signature?(payload)
 
-    # イベントタイプ
+    event = JSON.parse(payload)
     event_type = event["type"]
 
-    # metadata から order_id を取得（string）
-    order_id = event.dig("data", "metadata", "order_id")
-    return head :bad_request if order_id.blank?
-
-    # Order を特定（見つからなければ 404）
-    order = Order.find_by(id: order_id)
-    return head :not_found if order.nil?
-
-    # イベントごとの処理
     case event_type
     when "payment.captured"
-      order.update!(status: :paid)
-    when "payment.failed"
-      order.update!(status: :failed)
+      session_id = event.dig("data", "session")
+      order = Order.find_by(komoju_session_id: session_id)
+
+      if order.present?
+        order.update!(status: :paid)
+      else
+        Rails.logger.error("KOMOJU: Order not found for session #{session_id}")
+      end
+
+    else
+      Rails.logger.info("UNHANDLED EVENT TYPE: #{event_type}")
     end
 
-    # Webhook は必ず 200 を返す
     head :ok
+
+  rescue JSON::ParserError
+    head :bad_request
+
+  rescue => e
+    Rails.logger.error("KOMOJU WEBHOOK ERROR: #{e.class} #{e.message}")
+    head :internal_server_error
+  end
+
+  private
+
+  def valid_signature?(payload)
+    signature = request.headers["X-Komoju-Signature"]
+    return true if signature.blank?
+
+    expected = OpenSSL::HMAC.hexdigest(
+      "SHA256",
+      KOMOJU_SECRET,
+      payload
+    )
+
+    ActiveSupport::SecurityUtils.secure_compare(signature, expected)
   end
 end

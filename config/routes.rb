@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
   post 'payments/:order_id/checkout', to: 'payments#checkout', as: :payment_checkout
 
-  post 'webhooks/komoju', to: 'webhooks#komoju'
+  post 'komoju/webhook', to: 'webhooks#komoju'
 
   # Defines the root path route ("/")
   # root "posts#index"
