@@ -11,9 +11,6 @@ class Order < ApplicationRecord
     bank_transfer: "bank_transfer",
     paypay: "paypay",
     convenience_store: "konbini",
-    carrier_payment: "carrier",
-    wallet: "wallet",
-    amazon_pay: "amazon_pay"
   }
 
 
