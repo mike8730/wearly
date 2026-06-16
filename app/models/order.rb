@@ -7,14 +7,15 @@ class Order < ApplicationRecord
   validates :payment_method, presence: true
 
   enum payment_method: {
-    credit_card: 0,         # クレカ
-    bank_transfer: 1,       # 銀行振込
-    paypay: 2,              # PayPay
-    convenience_store: 3,   # コンビニ払い
-    carrier_payment: 4,     # キャリア決済（docomo/au/SoftBank）
-    wallet: 5,              # Apple Pay / Google Pay
-    amazon_pay: 6           # Amazon Pay
+    credit_card: "credit_card",
+    bank_transfer: "bank_transfer",
+    paypay: "paypay",
+    convenience_store: "konbini",
+    carrier_payment: "carrier",
+    wallet: "wallet",
+    amazon_pay: "amazon_pay"
   }
+
 
 
   enum status: {

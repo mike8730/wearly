@@ -42,7 +42,7 @@ class OrdersController < ApplicationController
         {
           amount: order.total_price,
           currency: "JPY",
-          payment_types: ["credit_card"],
+          payment_types: [order.payment_method],
           return_url: order_url(order, completed: true),
 
           # webhook で order_id を取得するために必要
