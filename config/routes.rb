@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     collection do
       get :complete
     end
+    member do
+      patch :cancel
+    end
   end
 
   post 'komoju/webhook', to: 'webhooks#komoju'
