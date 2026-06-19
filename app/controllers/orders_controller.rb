@@ -73,27 +73,27 @@ class OrdersController < ApplicationController
   end
 
   def cancel
-  @order = current_user.orders
-                       .includes(order_items: :item_variant)
-                       .find(params[:id])
+    @order = current_user.orders
+                         .includes(order_items: :item_variant)
+                         .find(params[:id])
 
-  unless @order.pending? || @order.paid?
-    flash.now[:alert] = "この注文はキャンセルできません。"
-    return render :show
-  end
-
-  ActiveRecord::Base.transaction do
-    @order.update!(status: :canceled)
-
-    @order.order_items.each do |order_item|
-      variant = order_item.item_variant
-      variant.stock_quantity += order_item.quantity
-      variant.save!
+    unless @order.pending? || @order.paid?
+      flash.now[:alert] = "この注文はキャンセルできません。"
+      return render :show
     end
-  end
 
-  redirect_to orders_path, notice: "注文をキャンセルしました。"
-end
+    ActiveRecord::Base.transaction do
+      @order.update!(status: :canceled)
+
+      @order.order_items.each do |order_item|
+        variant = order_item.item_variant
+        variant.stock_quantity += order_item.quantity
+        variant.save!
+      end
+    end
+
+    redirect_to orders_path, notice: "注文をキャンセルしました。"
+  end
 
 
   private
