@@ -4,22 +4,13 @@ class Order < ApplicationRecord
   validates :status, presence: true
   validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :order_number, presence: true, uniqueness: true
-  validates :payment_method, presence: true
-
-  enum payment_method: {
-    credit_card: "credit_card",
-    bank_transfer: "bank_transfer",
-    paypay: "paypay",
-    convenience_store: "konbini",
-  }
-
-
+  validates :payment_provider_type, presence: true
 
   enum status: {
     pending: 0,
     paid: 1,
     shipped: 2,
-    cancelled: 3   
+    cancelled: 3
   }
 
   belongs_to :user
@@ -31,6 +22,7 @@ class Order < ApplicationRecord
   end
 
   private
+
   def set_order_number
     loop do
       self.order_number = "#{SecureRandom.hex(8)}"
@@ -38,3 +30,4 @@ class Order < ApplicationRecord
     end
   end
 end
+

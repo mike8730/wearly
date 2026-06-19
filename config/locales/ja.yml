@@ -1,24 +1,26 @@
 ja:
-  date:
-    order:
-      - :year
-      - :month
-      - :day
+  activemodel:
+    errors:
+      models:
+        order_form:
+          attributes:
+            postal_code:
+              blank: "郵便番号を入力してください"
+              invalid: "郵便番号の形式が正しくありません"
+            city:
+              blank: "市区町村を入力してください"
+            address:
+              blank: "番地を入力してください"
+            phone_number:
+              blank: "電話番号を入力してください"
+              invalid: "電話番号の形式が正しくありません"
+            prefecture_id:
+              blank: "都道府県を選択してください"
+              not_a_number: "都道府県を選択してください"
 
-  enums:
-    order:
-      status:
-        pending: "支払い待ち"
-        paid: "支払い済み"
-        shipped: "発送済み"
-        cancelled: "キャンセル済み"
+  errors:
+    messages:
+      blank: "入力してください"
+      invalid: "形式が正しくありません"
+      not_a_number: "数値で入力してください"
 
-  payment_methods:
-    credit_card: "クレジットカード"
-    bank_transfer: "銀行振込"
-    paypay: "PayPay"
-    convenience_store: "コンビニ払い"
-    cod: "代引き"
-    carrier_payment: "キャリア決済"
-    wallet: "Apple Pay / Google Pay"
-    amazon_pay: "Amazon Pay"

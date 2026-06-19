@@ -1,10 +1,9 @@
 class OrdersController < ApplicationController
-
   def new
     @cart = current_cart
-    @order = OrderForm.new(user_id: current_user.id)
+    @order_form = OrderForm.new(user_id: current_user.id)
 
-    @order.order_items_attributes = @cart.cart_items.map do |cart_item|
+    @order_form.order_items_attributes = @cart.cart_items.map do |cart_item|
       {
         item_variant_id: cart_item.item_variant_id,
         quantity: cart_item.quantity
@@ -15,127 +14,74 @@ class OrdersController < ApplicationController
   def create
     @cart = current_cart
 
-    @order = OrderForm.new(
-      order_form_params.merge(user_id: current_user.id)
-    )
+    @order_form = OrderForm.new(order_form_params.merge(user_id: current_user.id))
+    @order_form.order_items_attributes = @cart.cart_items.map { |ci| { item_variant_id: ci.item_variant_id, quantity: ci.quantity } }
 
-    @order.order_items_attributes = @cart.cart_items.map do |cart_item|
-      {
-        item_variant_id: cart_item.item_variant.id,
-        quantity: cart_item.quantity
-      }
+    unless @order_form.valid?
+      return render :new, status: :unprocessable_entity
     end
 
-    if @order.save
-      order = @order.order
+    # KOMOJU Checkout Session 作成
+    conn = Faraday.new(url: "https://komoju.com") do |f|
+      f.request :authorization, :basic, ENV["KOMOJU_SECRET_KEY"], ""
+      f.options.timeout = 15
+      f.options.open_timeout = 5
+    end
 
-      # KOMOJU API 接続
-      conn = Faraday.new(url: "https://komoju.com") do |f|
-        f.request :authorization, :basic, ENV["KOMOJU_SECRET_KEY"], ""
-        f.options.timeout = 15
-        f.options.open_timeout = 5
-      end
+    response = conn.post(
+      "/api/v1/sessions",
+      {
+        amount: @cart.total_price,
+        currency: "JPY",
+        return_url: complete_orders_url,
+        cancel_url: root_url
+      }.to_json,
+      { "Content-Type" => "application/json" }
+    )
 
-      # Checkout Session 作成
-      response = conn.post(
-        "/api/v1/sessions",
-        {
-          amount: order.total_price,
-          currency: "JPY",
-          payment_types: [order.payment_method_before_type_cast],
-          return_url: order_url(order, completed: true),
+    session_data = JSON.parse(response.body)
 
-          # webhook で order_id を取得するために必要
-          payment_data: {
-            metadata: {
-              order_id: order.id.to_s
-            }
-          }
+    # 仮注文を保存
+    PendingOrder.create!(
+      user_id: current_user.id,
+      session_id: session_data["id"],
+      order_form_params: order_form_params.merge(user_id: current_user.id),
+      order_items: @order_form.order_items_attributes
+    )
 
-        }.to_json,
-        {
-          "Content-Type" => "application/json"
-        }
-      )
+    redirect_to session_data["session_url"], allow_other_host: true
+  end
 
-      unless response.success?
-        Rails.logger.error(
-          "KOMOJU API Error: #{response.status} #{response.body}"
-        )
+  def complete
+    @order = current_user.orders.order(created_at: :desc).first
 
-        redirect_to order_path(order),
-                    alert: "決済ページの生成に失敗しました。"
-        return
-      end
-
-      session_data = JSON.parse(response.body)
-
-      order.update!(
-        komoju_session_id: session_data["id"]
-      )
-
-      redirect_to session_data["session_url"],
-        allow_other_host: true
-
+    unless @order&.paid?
+      redirect_to orders_path, alert: "決済が完了していません"
       return
-
-    else
-      render :new, status: :unprocessable_entity
     end
   end
 
   def index
-    @orders = current_user.orders
-                          .order(created_at: :desc)
-                          .includes(:order_items)
+    @orders = current_user.orders.order(created_at: :desc).includes(:order_items)
   end
 
   def show
     @order = current_user.orders
-                          .includes(
-                            order_items: {
-                              item_variant: [:item, :item_color]
-                            }
-                          )
-                          .find(params[:id])
-
+                        .includes(order_items: { item_variant: [:item, :item_color] })
+                        .find(params[:id])
     @order_items = @order.order_items
-  end
-
-  def cancel
-    @order = current_user.orders.find(params[:id])
-
-    if @order.pending? || @order.paid?
-      @order.update!(status: :cancelled)
-
-      @order.order_items.each do |item|
-        variant = item.item_variant
-
-        variant.update!(
-          stock_quantity: variant.stock_quantity + item.quantity
-        )
-      end
-
-      redirect_to orders_path,
-                  notice: "注文をキャンセルしました"
-
-    else
-      redirect_to order_path(@order),
-                  alert: "この注文はキャンセルできません"
-    end
   end
 
   private
 
   def order_form_params
-    params.permit(
+    params.require(:order_form).permit(
       :postal_code,
       :prefecture_id,
       :city,
       :address,
       :building,
-      :phone_number,
-      :payment_method
+      :phone_number
     )
   end
 end
