@@ -73,4 +73,11 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  config.hosts << /.*\.ngrok-free\.dev/
+
+  config.action_dispatch.default_headers.merge!({
+      'ngrok-skip-browser-warning' => 'true'
+    })
+
 end

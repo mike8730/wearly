@@ -2,15 +2,7 @@
 
 <div class="order-show-container">
 
-  <% if params[:completed] %>
-    <h2 class="order-show-title">ご注文が完了しました</h2>
-    <div class="order-show-message">
-      ご注文いただきありがとうございます。<br>
-      以下がご注文内容の詳細です。
-    </div>
-  <% else %>
-    <h2 class="order-show-title">注文詳細</h2>
-  <% end %>
+  <h2 class="order-show-title">注文詳細</h2>
 
   <!-- 注文情報 -->
   <div class="order-info-card">
@@ -28,7 +20,15 @@
 
     <div class="order-info-row">
       <span class="label">支払い方法</span>
-      <span class="value"><%= @order.payment_method_i18n %></span>
+      <span class="value">
+        <% if @order.respond_to?(:payment_method_i18n) && @order.payment_method_i18n.present? %>
+          <%= @order.payment_method_i18n %>
+        <% elsif @order.payment_provider_type.present? %>
+          <%= @order.payment_provider_type %>
+        <% else %>
+          <%= @order.payment_method %>
+        <% end %>
+      </span>
     </div>
 
     <div class="order-info-row total">

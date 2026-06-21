@@ -1,0 +1,77 @@
+<%= render "shared/header" %>
+
+<div class="order-complete-container">
+
+  <h2 class="order-complete-title">ご注文ありがとうございました！</h2>
+
+  <p class="complete-message">
+    ご注文が正常に完了しました。以下の内容をご確認ください。
+  </p>
+
+  <!-- 注文情報 -->
+  <div class="order-info-card">
+    <h3 class="section-title">注文情報</h3>
+
+    <div class="order-info-row">
+      <span class="label">注文番号</span>
+      <span class="value"><%= @order.order_number %></span>
+    </div>
+
+    <div class="order-info-row">
+      <span class="label">注文日時</span>
+      <span class="value"><%= @order.created_at.strftime("%Y/%m/%d %H:%M") %></span>
+    </div>
+
+    <div class="order-info-row">
+      <span class="label">支払い方法</span>
+      <span class="value">
+        <% if @order.respond_to?(:payment_method_i18n) && @order.payment_method_i18n.present? %>
+          <%= @order.payment_method_i18n %>
+        <% elsif @order.payment_provider_type.present? %>
+          <%= @order.payment_provider_type %>
+        <% else %>
+          <%= @order.payment_method %>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="order-info-row total">
+      <span class="label">合計金額</span>
+      <span class="value total-price">
+        <%= number_to_currency(@order.total_price, unit: "¥", precision: 0, format: "%u%n") %>
+      </span>
+    </div>
+  </div>
+
+  <!-- 配送先 -->
+  <div class="order-info-card">
+    <h3 class="section-title">配送先</h3>
+
+    <div class="order-info-row">
+      <span class="label">郵便番号</span>
+      <span class="value"><%= @order.shipping_address.postal_code %></span>
+    </div>
+
+    <div class="order-info-row">
+      <span class="label">住所</span>
+      <span class="value">
+        <%= @order.shipping_address.prefecture.name %>
+        <%= @order.shipping_address.city %>
+        <%= @order.shipping_address.address %>
+        <%= @order.shipping_address.building %>
+      </span>
+    </div>
+
+    <div class="order-info-row">
+      <span class="label">電話番号</span>
+      <span class="value"><%= @order.shipping_address.phone_number %></span>
+    </div>
+  </div>
+
+  <div class="back-to-top">
+    <%= link_to "注文履歴を見る", orders_path, class: "back-btn" %>
+  </div>
+
+</div>
+
+<%= render "shared/footer" %>

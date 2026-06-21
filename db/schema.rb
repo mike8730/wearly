@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_04_012405) do
+ActiveRecord::Schema[7.1].define(version: 2026_06_18_104242) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -113,9 +113,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_04_012405) do
     t.bigint "user_id", null: false
     t.integer "status"
     t.string "order_number"
-    t.integer "payment_method", default: 0, null: false
+    t.string "payment_method", default: "0", null: false
+    t.string "komoju_session_id"
+    t.string "payment_provider_type"
+    t.string "payment_uuid"
     t.index ["order_number"], name: "index_orders_on_order_number", unique: true
+    t.index ["payment_uuid"], name: "index_orders_on_payment_uuid", unique: true
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "pending_orders", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "session_id", null: false
+    t.text "order_form_params", null: false
+    t.text "order_items", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_pending_orders_on_session_id", unique: true
+    t.index ["user_id"], name: "index_pending_orders_on_user_id"
   end
 
   create_table "shipping_addresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -168,5 +183,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_04_012405) do
   add_foreign_key "order_items", "item_variants"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
+  add_foreign_key "pending_orders", "users"
   add_foreign_key "shipping_addresses", "orders"
 end
