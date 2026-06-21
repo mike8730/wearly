@@ -15,6 +15,9 @@ class Item < ApplicationRecord
 
   has_many_attached :images
 
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_users, through: :favorites, source: :user
+
   belongs_to_active_hash :category
   belongs_to_active_hash :gender
 end

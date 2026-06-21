@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_06_18_104242) do
+ActiveRecord::Schema[7.1].define(version: 2026_06_21_102228) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -61,6 +61,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_18_104242) do
     t.datetime "updated_at", null: false
     t.string "name", null: false
     t.string "code"
+  end
+
+  create_table "favorites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "item_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_favorites_on_item_id"
+    t.index ["user_id", "item_id"], name: "index_favorites_on_user_id_and_item_id", unique: true
+    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "item_colors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -176,6 +186,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_18_104242) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "item_variants"
   add_foreign_key "carts", "users"
+  add_foreign_key "favorites", "items"
+  add_foreign_key "favorites", "users"
   add_foreign_key "item_colors", "colors"
   add_foreign_key "item_colors", "items"
   add_foreign_key "item_variants", "items"
