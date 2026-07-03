@@ -1,0 +1,48 @@
+<%= render "shared/header" %>
+
+<div class="main">
+
+  <div class="item-contents">
+    <h2 class="item-contents-title">FAVORITES</h2>
+
+    <ul class="item-lists">
+      <% @favorite_items.each do |item| %>
+        <% item_color = item.item_colors.first %>
+
+        <% image_tag_html =
+             if item_color&.images&.attached?
+               image_tag(item_color.images.first)
+             else
+               image_tag("no_image.png")
+             end %>
+
+        <li class="list">
+
+          <%= link_to item_path(item) do %>
+            <div class="item-img-content">
+              <%= image_tag_html %>
+            </div>
+          <% end %>
+
+          <div class="item-info-row">
+            <div class="item-info-text">
+              <p><%= item.name %></p>
+              <p><%= number_to_currency(item.price, unit: "¥", precision: 0, format: "%u%n") %></p>
+            </div>
+
+            <button
+              class="favorite-btn favorited"
+              data-item-id="<%= item.id %>"
+              data-favorited="true">
+              ♥
+            </button>
+          </div>
+
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+</div>
+
+<%= render "shared/footer" %>
