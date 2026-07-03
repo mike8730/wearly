@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     resource :favorite, only: [:create, :destroy]
   end
 
+  resources :favorites, only: [:index]
+
   resources :orders, only: [:index, :new, :create, :show] do
     collection do
       get :complete
