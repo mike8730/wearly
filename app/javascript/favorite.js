@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
   const buttons = document.querySelectorAll(".favorite-btn");
   if (!buttons.length) return;
 
