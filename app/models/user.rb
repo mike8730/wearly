@@ -17,4 +17,10 @@ class User < ApplicationRecord
 
   has_one :cart, dependent: :destroy
   has_many :orders, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_items, through: :favorites, source: :item
+
+  def favorited?(item)
+    favorites.exists?(item_id: item.id)
+  end
 end
