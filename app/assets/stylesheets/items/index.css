@@ -136,3 +136,38 @@
   font-weight: bold;
   margin: 0;
 }
+
+.favorite-btn {
+  font-size: 28px; /* 大きめ */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #ccc;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.favorite-btn.favorited {
+  color: #ff4f8b; /* ピンク */
+  transform: scale(1.25);
+}
+
+.favorite-btn.animate {
+  animation: heart-pop 0.35s ease;
+}
+
+@keyframes heart-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.6); }
+  100% { transform: scale(1.25); }
+}
+
+.item-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-info-text p {
+  margin: 0;
+}

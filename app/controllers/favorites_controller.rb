@@ -4,20 +4,12 @@ class FavoritesController < ApplicationController
   def create
     @item = Item.find(params[:item_id])
     current_user.favorites.create(item: @item)
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to item_path(@item) }
-    end
+    render json: { status: "ok" }
   end
 
   def destroy
     @item = Item.find(params[:item_id])
     current_user.favorites.find_by(item: @item)&.destroy
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to item_path(@item) }
-    end
+    render json: { status: "ok" }
   end
 end
