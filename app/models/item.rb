@@ -2,7 +2,7 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :price, presence: true
   validates :description, presence: true
-  validates :category_id, presence: true, numericality: { other_than: 0 }
+  validates :product_category_id, presence: true
   validates :gender_id, presence: true, numericality: { other_than: 0 }
 
   extend ActiveHash::Associations::ActiveRecordExtensions
@@ -18,6 +18,6 @@ class Item < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :favorite_users, through: :favorites, source: :user
 
-  belongs_to_active_hash :category
+  belongs_to :product_category
   belongs_to_active_hash :gender
 end
