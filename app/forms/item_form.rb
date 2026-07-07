@@ -3,18 +3,18 @@ class ItemForm
 
   attr_accessor :name,
                 :description,
-                :category_id,
+                :product_category_id,
                 :gender_id,
                 :price
 
-  validates :name, :price, :category_id, :gender_id, presence: true
+  validates :name, :price, :product_category_id, :gender_id, presence: true
 
   def save!(variant_params)
     ActiveRecord::Base.transaction do
       item = Item.create!(
         name: name,
         description: description,
-        category_id: category_id,
+        product_category_id: product_category_id,
         gender_id: gender_id,
         price: price
       )

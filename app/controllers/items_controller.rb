@@ -41,7 +41,7 @@ class ItemsController < ApplicationController
     params.require(:item_form).permit(
       :name,
       :description,
-      :category_id,
+      :product_category_id,
       :gender_id,
       :price
     )
