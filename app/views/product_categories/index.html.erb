@@ -1,0 +1,19 @@
+<%= render "shared/header" %>
+
+<div class="categories-page">
+  <div class="item-contents">
+    <h2 class="item-contents-title">CATEGORIES</h2>
+
+    <ul class="category-lists">
+      <% @product_categories.each do |category| %>
+        <li class="category-card">
+          <%= link_to product_category_path(category) do %>
+            <p class="category-name"><%= category.name %></p>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<%= render "shared/footer" %>

@@ -32,4 +32,6 @@ Rails.application.routes.draw do
       patch :decrease
     end
   end
+
+  resources :product_categories, only: [:index, :show]
 end
