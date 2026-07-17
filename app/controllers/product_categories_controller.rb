@@ -6,11 +6,14 @@ class ProductCategoriesController < ApplicationController
   def show
     @product_category = ProductCategory
                           .includes(
-                            items: [:item_colors, :item_variants, :favorites],
-                            item_colors: { images_attachments: :blob }
+                            items: [
+                              { item_colors: { images_attachments: :blob } },
+                              :item_variants,
+                              :favorites
+                            ]
                           )
                           .find(params[:id])
-  
+
     @category_items = @product_category.items
   end
 end
