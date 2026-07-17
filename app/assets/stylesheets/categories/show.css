@@ -1,0 +1,90 @@
+/* ================================
+   カテゴリー詳細ページ専用
+   .category-show-page を名前空間にする
+================================ */
+
+.category-show-page {
+  padding-top: 61px; /* ヘッダー分 */
+
+  .item-contents {
+    padding: 5vh 10vw;
+    background-color: #fff;
+  }
+
+  .item-contents-title {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 5vh;
+  }
+
+  /* 商品リスト（トップページと統一） */
+  .item-lists {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .list > a {
+    text-decoration: none;
+    color: #333;
+  }
+
+  .item-img-content {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .item-img-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .item-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .item-info-text p {
+    margin: 0;
+  }
+
+  .favorite-btn {
+    font-size: 28px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #ccc;
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+
+  .favorite-btn.favorited {
+    color: #ff4f8b;
+    transform: scale(1.25);
+  }
+
+  .favorite-btn.animate {
+    animation: heart-pop 0.35s ease;
+  }
+
+  @keyframes heart-pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.6); }
+    100% { transform: scale(1.25); }
+  }
+}
