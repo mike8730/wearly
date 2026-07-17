@@ -1,0 +1,2 @@
+class CoordinateItem < ApplicationRecord
+end
