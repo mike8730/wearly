@@ -18,6 +18,9 @@ class Item < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :favorite_users, through: :favorites, source: :user
 
+  has_many :coordinate_items, dependent: :destroy
+  has_many :coordinates, through: :coordinate_items
+
   belongs_to :product_category
   belongs_to_active_hash :gender
 end
