@@ -34,4 +34,6 @@ Rails.application.routes.draw do
   end
 
   resources :product_categories, only: [:index, :show]
+
+  resources :coordinates, only: [:new, :create, :index]
 end
