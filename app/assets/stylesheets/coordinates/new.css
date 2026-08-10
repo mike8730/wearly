@@ -1,0 +1,139 @@
+/* --- 全体レイアウト --- */
+.coordinate-new-container {
+  padding: 5vh 10vw;
+  background-color: #fff;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* タイトル */
+.coordinate-new-title {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin-bottom: 5vh;
+}
+
+/* --- フォーム全体 --- */
+.coordinate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* ラベル */
+.coordinate-form label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* テキストフィールド・テキストエリア */
+.coordinate-form input[type="text"],
+.coordinate-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.coordinate-form textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+/* 画像アップロード */
+.coordinate-form input[type="file"] {
+  font-size: 14px;
+}
+
+/* --- アイテム選択欄 --- */
+.coordinate-items-wrapper {
+  background-color: #fafafa;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
+
+.coordinate-items-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* 個々のアイテム選択ブロック */
+.coordinate-item-fields {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
+
+/* セレクトボックス */
+.coordinate-item-fields select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* 削除ボタン */
+.remove-item {
+  background-color: #ff4f8b;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: opacity 0.2s ease;
+}
+
+.remove-item:hover {
+  opacity: 0.8;
+}
+
+/* アイテム追加ボタン */
+#add-item {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: opacity 0.2s ease;
+}
+
+#add-item:hover {
+  opacity: 0.8;
+}
+
+/* --- 送信ボタン --- */
+.coordinate-submit {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s ease;
+}
+
+.coordinate-submit:hover {
+  opacity: 0.85;
+}

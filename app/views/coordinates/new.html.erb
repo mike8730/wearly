@@ -1,0 +1,94 @@
+<div class="coordinate-new-container">
+
+  <h1 class="coordinate-new-title">コーディネート作成</h1>
+
+  <%= form_with model: @coordinate, local: true, class: "coordinate-form" do |f| %>
+
+    <div class="field">
+      <%= f.label :name, "コーディネート名" %>
+      <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :description, "説明" %>
+      <%= f.text_area :description %>
+    </div>
+
+    <div class="field">
+      <%= f.label :image, "コーディネート画像" %>
+      <%= f.file_field :image %>
+    </div>
+
+    <div class="coordinate-items-wrapper">
+
+      <h3 class="coordinate-items-title">使用するアイテム</h3>
+
+      <div id="coordinate-items">
+
+        <%= f.fields_for :coordinate_items do |ci| %>
+          <div class="coordinate-item-fields">
+
+            <%= ci.label :item_id, "アイテム" %>
+
+            <%= ci.collection_select :item_id,
+                Item.all,
+                :id,
+                :name,
+                { prompt: "アイテムを選択" } %>
+
+            <%= ci.hidden_field :_destroy %>
+
+            <button type="button" class="remove-item">
+              削除
+            </button>
+
+          </div>
+        <% end %>
+
+      </div>
+
+      <button type="button" id="add-item">
+        アイテムを追加
+      </button>
+
+    </div>
+
+    <div class="actions">
+      <%= f.submit "作成する", class: "coordinate-submit" %>
+    </div>
+
+  <% end %>
+
+</div>
+
+<template id="item-template">
+
+  <div class="coordinate-item-fields">
+
+    <label>アイテム</label>
+
+    <select name="coordinate[coordinate_items_attributes][NEW_INDEX][item_id]">
+      <option value="">アイテムを選択</option>
+
+      <% Item.all.each do |item| %>
+        <option value="<%= item.id %>">
+          <%= item.name %>
+        </option>
+      <% end %>
+
+    </select>
+
+    <input
+      type="hidden"
+      name="coordinate[coordinate_items_attributes][NEW_INDEX][_destroy]"
+      value="false"
+    >
+
+    <button type="button" class="remove-item">
+      削除
+    </button>
+
+  </div>
+
+</template>
+
