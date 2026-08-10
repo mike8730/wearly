@@ -8,7 +8,7 @@ class CoordinatesController < ApplicationController
     @coordinate = Coordinate.new(coordinate_params)
     
     if @coordinate.save
-      redirect_to @coordinate, notice: "コーディネートを作成しました。"
+      redirect_to coordinate_path(@coordinate), notice: "コーディネートを作成しました。"
     else
       render :new, status: :unprocessable_entity
     end
