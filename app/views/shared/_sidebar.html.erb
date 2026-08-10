@@ -6,9 +6,9 @@
       <li class="sidebar-nav-item"><%= link_to 'お気に入り', favorites_path %></li>
       <li class="sidebar-nav-item"><%= link_to '注文履歴', orders_path %></li>
       <li class="sidebar-nav-item"><%= link_to '会社概要', '#' %></li>
-      <li class="sidebar-nav-item"><%= link_to 'プライバシーポリシー', '#' %></li>
       <% if user_signed_in? && current_user.admin? %>
         <li class="sidebar-nav-item"><%= link_to '商品管理ページ', new_item_path %></li>
+        <li class="sidebar-nav-item"><%= link_to 'コーディネート作成', new_coordinate_path %></li>
       <% end %>
     </ul>
   </nav>
