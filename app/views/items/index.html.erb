@@ -45,13 +45,19 @@
               <p><%= item.name %></p>
               <p><%= number_to_currency(item.price, unit: "¥", precision: 0, format: "%u%n") %></p>
             </div>
-
-            <button
-              class="favorite-btn <%= 'favorited' if current_user.favorited?(item) %>"
-              data-item-id="<%= item.id %>"
-              data-favorited="<%= current_user.favorited?(item) %>">
-              <%= current_user.favorited?(item) ? "♥" : "♡" %>
-            </button>
+            
+            <% if current_user %>
+              <button
+                class="favorite-btn <%= 'favorited' if current_user.favorited?(item) %>"
+                data-item-id="<%= item.id %>"
+                data-favorited="<%= current_user.favorited?(item) %>">
+                <%= current_user.favorited?(item) ? "♥" : "♡" %>
+              </button>
+            <% else %>
+              <button class="favorite-btn" disabled>
+                ♡
+              </button>
+            <% end %>
           </div>
         </li>
       <% end %>
