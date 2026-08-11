@@ -3,14 +3,13 @@
 <div class='main'>
   <%# メインビジュアル %>
   <div class="main-visual-slider">
-    <div class="slider-track">
-      <% 2.times do %>
-        <div class="slide"><%= image_tag 'S__70008841.jpg', class: 'main-visual-img' %></div>
-        <div class="slide"><%= image_tag 'S__70008843.jpg', class: 'main-visual-img' %></div>
-        <div class="slide"><%= image_tag 'S__70008844_0.jpg', class: 'main-visual-img' %></div>
-        <div class="slide"><%= image_tag 'S__70008845_0.jpg', class: 'main-visual-img' %></div>
-        <div class="slide"><%= image_tag 'S__70008846_0.jpg', class: 'main-visual-img' %></div>
-        <div class="slide"><%= image_tag 'S__70008847_0.jpg', class: 'main-visual-img' %></div>
+    <button class="slider-btn left" id="slider-left">＜</button>
+    <button class="slider-btn right" id="slider-right">＞</button>
+    <div class="slider-track" id="slider-track">
+      <% @coordinates.each do |coordinate| %>
+        <% if coordinate.image.attached? %>
+          <%= image_tag coordinate.image, class: 'main-visual-img' %>
+        <% end %>
       <% end %>
     </div>
   </div>

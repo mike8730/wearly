@@ -4,6 +4,7 @@ class ItemsController < ApplicationController
       .includes(item_colors: { images_attachments: :blob })
       .includes(:item_variants)
       .order(created_at: :desc)
+    @coordinates = Coordinate.order(created_at: :desc)
   end
 
   def new

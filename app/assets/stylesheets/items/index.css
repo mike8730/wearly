@@ -1,61 +1,81 @@
-/* --- ここからスライダー用のCSSを追加 --- */
-/* メインコンテンツ全体 */
-.main {
-  padding-top: 61px; /* ヘッダーの高さ分だけ余白を設ける */
-}
-
-@keyframes scroll {
-  0%      { transform: translateX(0); }
-  13.88%  { transform: translateX(0); }
-  16.66%  { transform: translateX(calc(-100vw / 3)); }
-
-  16.67%  { transform: translateX(calc(-100vw / 3)); }
-  30.55%  { transform: translateX(calc(-100vw / 3)); }
-  33.33%  { transform: translateX(calc(-200vw / 3)); }
-
-  33.34%  { transform: translateX(calc(-200vw / 3)); }
-  47.21%  { transform: translateX(calc(-200vw / 3)); }
-  50.00%  { transform: translateX(calc(-300vw / 3)); }
-
-  50.01%  { transform: translateX(calc(-300vw / 3)); }
-  63.88%  { transform: translateX(calc(-300vw / 3)); }
-  66.66%  { transform: translateX(calc(-400vw / 3)); }
-
-  66.67%  { transform: translateX(calc(-400vw / 3)); }
-  80.55%  { transform: translateX(calc(-400vw / 3)); }
-  83.33%  { transform: translateX(calc(-500vw / 3)); }
-
-  83.34%  { transform: translateX(calc(-500vw / 3)); }
-  97.21%  { transform: translateX(calc(-500vw / 3)); }
-  100%    { transform: translateX(calc(-600vw / 3)); }
-}
-
+/* スライダー全体 */
 .main-visual-slider {
   width: 100%;
-  height: calc(100vh - 81px);
-  background-color: #f0f0f0;
-  position: relative;
+  padding-top: 30px;
+  padding-bottom: 30px;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  background-color: #f0f0f0;
 }
 
+/* 横スクロール領域 */
 .slider-track {
   display: flex;
-  width: calc(100vw / 3 * 12);
-  animation: scroll 36s linear infinite;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  /* 覗き見のための左右余白（中央2枚を見せるために調整） */
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
+.slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* 各スライド（中央2枚を全表示するために幅を40vwに変更） */
 .slide {
-  width: calc(100vw / 3);
-  height: calc(100vh - 81px);
+  flex: 0 0 40vw; /* 画面の40% → 2枚で80% → 左右が少し覗く */
+  margin-right: 20px;
+  scroll-snap-align: center;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 15px;
-  box-sizing: border-box;
 }
+
+/* 画像 */
+.main-visual-img {
+  width: 100%;
+  height: 60vh;
+  margin-right: 30px;
+  margin-left:30px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* PC用の左右ボタン */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.slider-btn.left {
+  left: 3vw;
+}
+
+.slider-btn.right {
+  right: 3vw;
+}
+
+/* スマホではボタン非表示 */
+@media (max-width: 768px) {
+  .slider-btn {
+    display: none;
+  }
+}
+
 /* --- ここまでスライダー用のCSS --- */
 
 /* メインビジュアル画像 */

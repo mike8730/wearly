@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
   const addButton = document.getElementById("add-item");
   const container = document.getElementById("coordinate-items");
   const template = document.getElementById("item-template").innerHTML;
