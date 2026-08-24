@@ -26,3 +26,4 @@ document.addEventListener("turbo:load", () => {
   });
 });
 
+

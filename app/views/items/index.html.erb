@@ -8,7 +8,9 @@
     <div class="slider-track" id="slider-track">
       <% @coordinates.each do |coordinate| %>
         <% if coordinate.image.attached? %>
-          <%= image_tag coordinate.image, class: 'main-visual-img' %>
+          <%#= link_to coordinate_path(coordinate) do %>
+            <%= image_tag coordinate.image, class: 'main-visual-img' %>
+          <%# end %>
         <% end %>
       <% end %>
     </div>
